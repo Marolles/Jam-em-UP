@@ -185,10 +185,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedPawn: {fileID: 7439291286982382719}
-  attackDamages: 10
-  attackRadius: 180
-  attackLength: 5
-  raycastAmount: 60
+  attackDamages: 4
+  attackRadius: 60
+  attackLength: 4
+  raycastAmount: 20
   attackSource: {fileID: 4526522650390202426}
   pushDistance: 3
   pushDuration: 0.25
