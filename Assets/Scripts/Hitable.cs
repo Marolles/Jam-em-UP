@@ -70,7 +70,7 @@ public class Hitable : MonoBehaviour
 
         return true;
     }
-    public void Damage(int _damages)
+    public virtual void Damage(int _damages)
     {
         if (isDead) return;
 
