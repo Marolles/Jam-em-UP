@@ -25,16 +25,13 @@ public class HPBar : MonoBehaviour
         currentTween = lerpedFilling.DOFillAmount(_HPPercent, fillLerpDuration).SetEase(fillEase);
     }
 
-    private void Update()
+    public void HideHPBar(float _delay)
     {
-        if (followedTransform != null)
-        {
-            
-        }
+        Invoke("HideBar", _delay);
     }
 
-    public void SetFollowedTransform(Transform _followedTransform)
+    private void HideBar()
     {
-        followedTransform = _followedTransform;
+        transform.gameObject.SetActive(false);
     }
 }
