@@ -21,7 +21,7 @@ public class EnemyController : PawnController
         {
             Vector3 _moveDirection = (_currentTarget.position - transform.position).normalized;
             if (charController.enabled)
-                charController.Move(_moveDirection * Time.deltaTime * moveSpeed);
+                charController.Move(_moveDirection * Time.deltaTime * (moveSpeed * GetSpeedMultiplier()));
         }
     }
 

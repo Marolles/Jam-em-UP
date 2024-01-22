@@ -7,7 +7,7 @@ public abstract class PawnController : Hitable
 {
     protected CharacterController charController;
     private float currentStunDuration;
-    private Dictionary<float, float> slowModifiers = new Dictionary<float, float>();
+    List<KeyValuePair<float, float>> speedModifiers = new List<KeyValuePair<float, float>>();
 
     protected override void Awake()
     {
@@ -19,6 +19,7 @@ public abstract class PawnController : Hitable
         base.Update(); //The base update manages HP
 
         HandleStunDuration();
+        HandleSpeedModifiers();
 
         if (!isDead && currentStunDuration <= 0)
         {
@@ -26,6 +27,20 @@ public abstract class PawnController : Hitable
             HandleRotation();
             HandleAttack();
         }
+    }
+
+    private void HandleSpeedModifiers()
+    {
+        List<KeyValuePair<float, float>> _updatedSpeedModifiers = new List<KeyValuePair<float, float>>();
+        for (int i = 0; i < speedModifiers.Count; i++)
+        {
+            KeyValuePair<float, float> _newValue = new KeyValuePair<float, float>(speedModifiers[i].Key - Time.deltaTime, speedModifiers[i].Value);
+            if (_newValue.Key > 0)
+            {
+                _updatedSpeedModifiers.Add(_newValue);
+            }
+        }
+        speedModifiers = _updatedSpeedModifiers;
     }
 
     private void HandleStunDuration()
@@ -48,6 +63,21 @@ public abstract class PawnController : Hitable
         {
             currentStunDuration = _duration;
         }
+    }
+
+    public float GetSpeedMultiplier()
+    {
+        float _multiplier = 1f;
+        foreach (KeyValuePair<float, float> _kvp in speedModifiers)
+        {
+            _multiplier *= _kvp.Value;
+        }
+        return _multiplier;
+    }
+
+    public void SetSpeedMultiplier(float _duration, float _multiplier)
+    {
+        speedModifiers.Add(new KeyValuePair<float, float>(_duration, _multiplier));
     }
     public void Push(Vector3 _direction, float _pushDuration, Ease _ease)
     {

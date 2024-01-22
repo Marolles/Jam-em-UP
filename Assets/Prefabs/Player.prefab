@@ -296,9 +296,12 @@ MonoBehaviour:
   attackLength: 5
   raycastAmount: 10
   attackSource: {fileID: 1827849437075179601}
-  pushDistance: 0.5
+  pushForce: 1
   pushDuration: 0.2
   pushEase: 3
   dashDistance: 1
   dashDuration: 0.2
   dashEase: 2
+  endOfAttackSlowMultiplier: 0.2
+  endOfAttackSlowDuration: 0.3
+  cooldown: 1

@@ -14,7 +14,7 @@ public class LightAttackController : MonoBehaviour
     [SerializeField] private float attackLength;
     [SerializeField] private int raycastAmount;
     [SerializeField] private Transform attackSource;
-    [SerializeField] private float pushDistance = 1f;
+    [SerializeField] private float pushForce = 1f;
     [SerializeField] private float pushDuration = 0.2f;
     [SerializeField] private Ease pushEase = Ease.OutSine;
 
@@ -22,11 +22,19 @@ public class LightAttackController : MonoBehaviour
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private Ease dashEase;
 
+    [SerializeField] private float endOfAttackSlowMultiplier = 0.2f;
+    [SerializeField] private float endOfAttackSlowDuration = 1f;
+
+    [SerializeField] private float cooldown = 1f;
+
 
     private List<Hitable> recentlyHitPawns = new List<Hitable>();
     private bool attacking = false;
+    private float currentCD;
     public void Attack()
     {
+        if (currentCD > 0) return;
+        currentCD = cooldown;
         attacking = true;
         recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
         linkedPawn.Push(linkedPawn.transform.forward * dashDistance, dashDuration, dashEase);
@@ -35,27 +43,29 @@ public class LightAttackController : MonoBehaviour
 
     private void FinishAttack()
     {
-        //Apply damages and push found targets
-        foreach (Hitable _hitable in recentlyHitPawns)
+        linkedPawn.SetSpeedMultiplier(endOfAttackSlowDuration, endOfAttackSlowMultiplier);
+        attacking = false;
+    }
+
+    private void HandleCooldown()
+    {
+        if (currentCD > 0)
         {
-            _hitable.Damage(attackDamages);
-            PawnController _foundPawn = _hitable.GetComponent<PawnController>();
-            if (_foundPawn != null)
-            {
-                Vector3 _pushDirection = _foundPawn.transform.position - transform.position;
-                _pushDirection.y = 0;
-                _pushDirection.Normalize();
-                _foundPawn.Push(_pushDirection * pushDistance, pushDuration, pushEase);
-            }
+            currentCD -= Time.deltaTime;
+        } else
+        {
+            currentCD = 0;
         }
     }
 
     private void Update()
     {
+        HandleCooldown();
         if (attacking)
         {
             Vector3 _attackDirection = attackSource.forward;
 
+            List<Hitable> _foundHitables = new List<Hitable>();
             float _angleBetweenRays = attackRadius / (float)(raycastAmount - 1);
             for (int i = 0; i < raycastAmount; i++)
             {
@@ -69,11 +79,25 @@ public class LightAttackController : MonoBehaviour
                     Hitable _foundHitable = _hit.transform.GetComponent<Hitable>();
                     if (_foundHitable != null)
                     {
-                        if (_foundHitable.GetTeamID() != linkedPawn.GetTeamID() && !recentlyHitPawns.Contains(_foundHitable))
+                        if (_foundHitable.GetTeamID() != linkedPawn.GetTeamID() && !_foundHitables.Contains(_foundHitable) && !recentlyHitPawns.Contains(_foundHitable))
                         {
+                            _foundHitables.Add(_foundHitable);
                             recentlyHitPawns.Add(_foundHitable);
                         }
                     }
+                }
+            }
+            //Apply damages and push found targets
+            foreach (Hitable _hitable in _foundHitables)
+            {
+                _hitable.Damage(attackDamages);
+                PawnController _foundPawn = _hitable.GetComponent<PawnController>();
+                if (_foundPawn != null)
+                {
+                    Vector3 _pushDirection = _foundPawn.transform.position - transform.position;
+                    _pushDirection.y = 0;
+                    _pushDirection.Normalize();
+                    _foundPawn.Push(_pushDirection * pushForce, pushDuration, pushEase);
                 }
             }
         }

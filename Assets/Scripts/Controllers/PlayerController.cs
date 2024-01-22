@@ -55,7 +55,7 @@ public class PlayerController : PawnController
         }
 
         //Apply movement to characterController
-        Vector3 _deltaMovement = _movement * Time.deltaTime * currentSpeed;
+        Vector3 _deltaMovement = _movement * Time.deltaTime * (currentSpeed * GetSpeedMultiplier());
 
         Vector3 _newPosition = MapManager.ClampPositionInRadius(transform.position + _deltaMovement);
         if (charController.enabled)
