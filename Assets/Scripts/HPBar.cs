@@ -24,17 +24,4 @@ public class HPBar : MonoBehaviour
         if (currentTween != null) currentTween.Kill(true);
         currentTween = lerpedFilling.DOFillAmount(_HPPercent, fillLerpDuration).SetEase(fillEase);
     }
-
-    private void Update()
-    {
-        if (followedTransform != null)
-        {
-            
-        }
-    }
-
-    public void SetFollowedTransform(Transform _followedTransform)
-    {
-        followedTransform = _followedTransform;
-    }
 }
