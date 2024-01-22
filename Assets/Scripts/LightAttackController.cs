@@ -41,7 +41,6 @@ public class LightAttackController : AttackController
         attackTweens.Clear();
         attackStatus.Clear();
         currentCD = cooldown;
-        attacking = true;
         recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
 
         //Start anticipation
@@ -51,6 +50,7 @@ public class LightAttackController : AttackController
 
     public void StartDash()
     {
+        attacking = true;
         string _dashStatusID;
         attackTweens.Add(linkedPawn.Push(linkedPawn.transform.forward * dashDistance, dashDuration, dashEase, out _dashStatusID));
         attackStatus.Add(_dashStatusID);

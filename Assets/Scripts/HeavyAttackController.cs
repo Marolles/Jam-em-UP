@@ -45,7 +45,6 @@ public class HeavyAttackController : AttackController
         attackTweens.Clear();
         attackStatus.Clear();
         currentCD = cooldown;
-        attacking = true;
         recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
 
         //Start anticipation
@@ -62,6 +61,7 @@ public class HeavyAttackController : AttackController
     }
     public void StartDash()
     {
+        attacking = true;
         string _dashStatusID;
         attackTweens.Add(linkedPawn.Push(linkedPawn.transform.forward * dashDistance, dashDuration, dashEase, out _dashStatusID));
         attackStatus.Add(_dashStatusID);
@@ -140,6 +140,9 @@ public class HeavyAttackController : AttackController
                     _pushDirection.y = 0;
                     _pushDirection.Normalize();
                     _foundPawn.Push(_pushDirection * pushForce, pushDuration, pushEase);
+
+                    //Cancel attacks
+                    _foundPawn.CancelAttacks();
                 }
             }
         }
