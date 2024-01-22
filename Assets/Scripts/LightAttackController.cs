@@ -36,12 +36,15 @@ public class LightAttackController : AttackController
     private List<Tween> attackTweens = new List<Tween>(); //Same for tweens
     public void StartAttack()
     {
+        //Reset values
         if (currentCD > 0) return;
         attackTweens.Clear();
         attackStatus.Clear();
         currentCD = cooldown;
         attacking = true;
         recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
+
+        //Start anticipation
         attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, anticipationSlowDuration, anticipationSlowMultiplier)));
         Invoke("StartDash", dashDuration);
     }
