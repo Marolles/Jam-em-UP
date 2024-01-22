@@ -5,10 +5,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class AttackController : MonoBehaviour
+public class LightAttackController : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private TeamID attackerTeam;
+    [SerializeField] private PawnController linkedPawn;
     [SerializeField] private int attackDamages = 10;
     [SerializeField] private float attackRadius;
     [SerializeField] private float attackLength;
@@ -37,7 +37,7 @@ public class AttackController : MonoBehaviour
                 Hitable _foundHitable = _hit.transform.GetComponent<Hitable>();
                 if (_foundHitable != null)
                 {
-                    if (_foundHitable.GetTeamID() != attackerTeam && !_hitTargets.Contains(_foundHitable))
+                    if (_foundHitable.GetTeamID() != linkedPawn.GetTeamID() && !_hitTargets.Contains(_foundHitable))
                     {
                         _hitTargets.Add(_foundHitable);
                     }
