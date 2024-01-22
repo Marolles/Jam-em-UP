@@ -5,6 +5,7 @@ public class EnemyController : PawnController
     [Header("Movement settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float distanceToAttack = 3f;
 
     private Vector3 wantedForward;
 
@@ -37,7 +38,11 @@ public class EnemyController : PawnController
 
     public override void HandleAttack()
     {
-        //No attack yet :(
+        float _distanceToPlayer = Vector3.Distance(PlayerController.instance.transform.position, transform.position);
+        if (_distanceToPlayer < distanceToAttack)
+        {
+            GetComponent<HeavyAttackController>().Attack();
+        }
     }
 
     public override void Kill()

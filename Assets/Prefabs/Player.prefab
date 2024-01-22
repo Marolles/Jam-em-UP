@@ -266,8 +266,9 @@ MonoBehaviour:
   destroyAfterDelay: -1
   displayHPBar: 1
   hideHPBarWhenDead: 0
-  maxHP: 100
+  maxHP: 10
   hpBarVerticalOffset: 2.3
+  shieldPoints: 0
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,
     type: 3}
   renderers:
@@ -289,12 +290,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01eb493c11b93db45a87dd916740c1c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackerTeam: 0
+  linkedPawn: {fileID: 7852764903341257616}
   attackDamages: 7
   attackRadius: 30
   attackLength: 5
   raycastAmount: 10
   attackSource: {fileID: 1827849437075179601}
-  pushDistance: 1
+  pushDistance: 0.5
   pushDuration: 0.2
   pushEase: 3
+  dashDistance: 1
+  dashDuration: 0.2
+  dashEase: 2

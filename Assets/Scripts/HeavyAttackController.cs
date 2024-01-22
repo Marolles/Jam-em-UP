@@ -22,8 +22,12 @@ public class HeavyAttackController : MonoBehaviour
     public void Attack()
     {
         //Attacker is stun for X seconds, then he attacks
+        linkedPawn.Stun(stunDuration);
+        Invoke("FinishAttack", stunDuration);
+    }
 
-
+    private void FinishAttack()
+    {
         //Checks for 'hitable' in front of the attacksource, at a certain angle, and store them in a list
         List<Hitable> _hitTargets = new List<Hitable>();
         Vector3 _attackDirection = attackSource.forward;
@@ -56,7 +60,10 @@ public class HeavyAttackController : MonoBehaviour
             PawnController _foundPawn = _hitable.GetComponent<PawnController>();
             if (_foundPawn != null)
             {
-                _foundPawn.Push(attackSource.forward * pushDistance, pushDuration, pushEase);
+                Vector3 _pushDirection = _foundPawn.transform.position - transform.position;
+                _pushDirection.y = 0;
+                _pushDirection.Normalize();
+                _foundPawn.Push(_pushDirection * pushDistance, pushDuration, pushEase);
             }
         }
     }
