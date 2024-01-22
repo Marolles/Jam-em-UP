@@ -41,7 +41,7 @@ public class EnemyController : PawnController
         float _distanceToPlayer = Vector3.Distance(PlayerController.instance.transform.position, transform.position);
         if (_distanceToPlayer < distanceToAttack)
         {
-            GetComponent<HeavyAttackController>().Attack();
+            GetComponent<HeavyAttackController>().StartAttack();
         }
     }
 

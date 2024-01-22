@@ -36,7 +36,15 @@ public class PlayerController : PawnController
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GetComponent<LightAttackController>().Attack();
+            GetComponent<LightAttackController>().StartAttack();
+        }
+        
+        if (Input.GetMouseButtonDown(1))
+        {
+            foreach (AttackController _ac in GetComponents<AttackController>())
+            {
+                _ac.CancelAttack();
+            }
         }
     }
 

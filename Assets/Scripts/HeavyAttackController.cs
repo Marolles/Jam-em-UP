@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HeavyAttackController : MonoBehaviour
+public class HeavyAttackController : AttackController
 {
     [Header("Settings")]
     [SerializeField] private PawnController linkedPawn;
@@ -14,56 +14,122 @@ public class HeavyAttackController : MonoBehaviour
     [SerializeField] private float attackLength;
     [SerializeField] private int raycastAmount;
     [SerializeField] private Transform attackSource;
-    [SerializeField] private float pushDistance = 1f;
+    [SerializeField] private float pushForce = 1f;
     [SerializeField] private float pushDuration = 0.2f;
     [SerializeField] private Ease pushEase = Ease.OutSine;
-    [SerializeField] private float stunDuration = 1f;
 
-    public void Attack()
+    [SerializeField] private float dashDistance = 1f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private Ease dashEase;
+
+    [SerializeField] private float anticipationSlowMultiplier = 0.2f;
+    [SerializeField] private float anticipationSlowDuration = 1f;
+
+    [SerializeField] private float endOfAttackSlowMultiplier = 0.2f;
+    [SerializeField] private float endOfAttackSlowDuration = 1f;
+
+    [SerializeField] private float cooldown = 1f;
+
+
+    private List<Hitable> recentlyHitPawns = new List<Hitable>();
+    private bool attacking = false;
+    private float currentCD;
+
+    private List<string> attackStatus = new List<string>(); //Store attack status to cancel them if necessary
+    private List<Tween> attackTweens = new List<Tween>(); //Same for tweens
+    public void StartAttack()
     {
-        //Attacker is stun for X seconds, then he attacks
-        linkedPawn.SetStatus(new StatusEffect(StatusType.STUN, stunDuration, 1f));
-        Invoke("FinishAttack", stunDuration);
+        if (currentCD > 0) return;
+        attackTweens.Clear();
+        attackStatus.Clear();
+        currentCD = cooldown;
+        attacking = true;
+        recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
+        attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, anticipationSlowDuration, anticipationSlowMultiplier)));
+        Invoke("StartDash", dashDuration);
+    }
+
+    public void StartDash()
+    {
+        string _dashStatusID;
+        attackTweens.Add(linkedPawn.Push(linkedPawn.transform.forward * dashDistance, dashDuration, dashEase, out _dashStatusID));
+        attackStatus.Add(_dashStatusID);
+        Invoke("FinishAttack", dashDuration);
+    }
+
+    public override void CancelAttack()
+    {
+        CancelInvoke();
+        foreach (Tween _tween in attackTweens)
+        {
+            if (_tween != null) _tween.Kill(false);
+        }
+        foreach (string _statusID in attackStatus)
+        {
+            linkedPawn.RemoveStatus(_statusID);
+        }
+        attacking = false;
     }
 
     private void FinishAttack()
     {
-        //Checks for 'hitable' in front of the attacksource, at a certain angle, and store them in a list
-        List<Hitable> _hitTargets = new List<Hitable>();
-        Vector3 _attackDirection = attackSource.forward;
+        attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, endOfAttackSlowDuration, endOfAttackSlowMultiplier)));
+        attacking = false;
+    }
 
-        float _angleBetweenRays = attackRadius / (float)(raycastAmount - 1);
-        for (int i = 0; i < raycastAmount; i++)
+    private void HandleCooldown()
+    {
+        if (currentCD > 0)
         {
-            Vector3 rayDirection = Quaternion.Euler(0, -attackRadius / 2 + i * _angleBetweenRays, 0) * _attackDirection;
+            currentCD -= Time.deltaTime;
+        }
+        else
+        {
+            currentCD = 0;
+        }
+    }
 
-            Ray ray = new Ray(attackSource.position, rayDirection);
-            Debug.DrawRay(attackSource.position, rayDirection * attackLength, Color.red, 1f);
+    private void Update()
+    {
+        HandleCooldown();
+        if (attacking)
+        {
+            Vector3 _attackDirection = attackSource.forward;
 
-            foreach (RaycastHit _hit in Physics.RaycastAll(ray, attackLength))
+            List<Hitable> _foundHitables = new List<Hitable>();
+            float _angleBetweenRays = attackRadius / (float)(raycastAmount - 1);
+            for (int i = 0; i < raycastAmount; i++)
             {
-                Hitable _foundHitable = _hit.transform.GetComponent<Hitable>();
-                if (_foundHitable != null)
+                Vector3 rayDirection = Quaternion.Euler(0, -attackRadius / 2 + i * _angleBetweenRays, 0) * _attackDirection;
+
+                Ray ray = new Ray(attackSource.position, rayDirection);
+                Debug.DrawRay(attackSource.position, rayDirection * attackLength, Color.red, 1f);
+
+                foreach (RaycastHit _hit in Physics.RaycastAll(ray, attackLength))
                 {
-                    if (_foundHitable.GetTeamID() != linkedPawn.GetTeamID() && !_hitTargets.Contains(_foundHitable))
+                    Hitable _foundHitable = _hit.transform.GetComponent<Hitable>();
+                    if (_foundHitable != null)
                     {
-                        _hitTargets.Add(_foundHitable);
+                        if (_foundHitable.GetTeamID() != linkedPawn.GetTeamID() && !_foundHitables.Contains(_foundHitable) && !recentlyHitPawns.Contains(_foundHitable))
+                        {
+                            _foundHitables.Add(_foundHitable);
+                            recentlyHitPawns.Add(_foundHitable);
+                        }
                     }
                 }
             }
-        }
-
-        //Apply damages and push found targets
-        foreach (Hitable _hitable in _hitTargets)
-        {
-            _hitable.Damage(attackDamages);
-            PawnController _foundPawn = _hitable.GetComponent<PawnController>();
-            if (_foundPawn != null)
+            //Apply damages and push found targets
+            foreach (Hitable _hitable in _foundHitables)
             {
-                Vector3 _pushDirection = _foundPawn.transform.position - transform.position;
-                _pushDirection.y = 0;
-                _pushDirection.Normalize();
-                _foundPawn.Push(_pushDirection * pushDistance, pushDuration, pushEase);
+                _hitable.Damage(attackDamages);
+                PawnController _foundPawn = _hitable.GetComponent<PawnController>();
+                if (_foundPawn != null)
+                {
+                    Vector3 _pushDirection = _foundPawn.transform.position - transform.position;
+                    _pushDirection.y = 0;
+                    _pushDirection.Normalize();
+                    _foundPawn.Push(_pushDirection * pushForce, pushDuration, pushEase);
+                }
             }
         }
     }
