@@ -8,6 +8,9 @@ public class PlayerController : PawnController
 {
     public static PlayerController instance;
 
+    [Header("References")]
+    [SerializeField] private PlayerHitFeedback playerHitFeedback;
+
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float acceleration = 5f;
@@ -77,5 +80,11 @@ public class PlayerController : PawnController
         Vector3 _newDirection = wantedLookedPos - transform.position;
         _newDirection.y = 0;
         transform.forward = Vector3.Lerp(transform.forward, _newDirection, Time.deltaTime * rotationSpeed);
+    }
+
+    public override void Damage(int _damages)
+    {
+        base.Damage(_damages);
+        playerHitFeedback.PlayFeedback();
     }
 }
