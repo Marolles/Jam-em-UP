@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3002539028293088637}
   - component: {fileID: 8797484428560723817}
   m_Layer: 0
-  m_Name: Visuals
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,13 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970942356169886063}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4342111040289967781}
-  m_Father: {fileID: 6382795134893557026}
+  m_Children: []
+  m_Father: {fileID: 7763892074670118295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3002539028293088637
 MeshFilter:
@@ -84,6 +83,39 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4800723359528442021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7763892074670118295}
+  m_Layer: 0
+  m_Name: Visuals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7763892074670118295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4800723359528442021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4342111040289967781}
+  - {fileID: 1827849437075179601}
+  m_Father: {fileID: 6382795134893557026}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6227999019507202165
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +129,7 @@ GameObject:
   - component: {fileID: 1406260616701903463}
   - component: {fileID: 7104716250717508361}
   m_Layer: 0
-  m_Name: ForwardIndicator(TEMP)
+  m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,11 +144,11 @@ Transform:
   m_GameObject: {fileID: 6227999019507202165}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.485, z: 0.6}
+  m_LocalPosition: {x: 0, y: 1.485, z: 0.5999999}
   m_LocalScale: {x: 0.23986, y: 0.23986, z: 0.5054592}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1827849437075179601}
+  m_Father: {fileID: 7763892074670118295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8602902697024151141
 MeshFilter:
@@ -201,6 +233,7 @@ GameObject:
   - component: {fileID: 7618520564542434818}
   - component: {fileID: 7852764903341257616}
   - component: {fileID: 2794438186323490694}
+  - component: {fileID: 2992018603172923930}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -221,7 +254,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1827849437075179601}
+  - {fileID: 7763892074670118295}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &7618520564542434818
@@ -266,13 +299,15 @@ MonoBehaviour:
   destroyAfterDelay: -1
   displayHPBar: 1
   hideHPBarWhenDead: 0
-  maxHP: 100
+  maxHP: 10
   hpBarVerticalOffset: 2.3
+  shieldPoints: 0
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,
     type: 3}
   renderers:
   - {fileID: 8797484428560723817}
   - {fileID: 1406260616701903463}
+  playerHitFeedback: {fileID: 0}
   moveSpeed: 5
   acceleration: 5
   deceleration: 7
@@ -289,12 +324,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01eb493c11b93db45a87dd916740c1c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackerTeam: 0
+  linkedPawn: {fileID: 7852764903341257616}
   attackDamages: 7
   attackRadius: 30
   attackLength: 5
   raycastAmount: 10
   attackSource: {fileID: 1827849437075179601}
-  pushDistance: 1
+  pushForce: 1
   pushDuration: 0.2
   pushEase: 3
+  dashDistance: 1
+  dashDuration: 0.2
+  dashEase: 2
+  endOfAttackSlowMultiplier: 0.2
+  endOfAttackSlowDuration: 0.3
+  cooldown: 1
+--- !u!114 &2992018603172923930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045684542930204831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 894fb86dcb72d5c4cb597710a4155b32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHitVignetteAnimator: {fileID: 0}

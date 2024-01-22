@@ -6,6 +6,9 @@ using UnityEngine;
 public abstract class PawnController : Hitable
 {
     protected CharacterController charController;
+    private float currentStunDuration;
+    private Dictionary<string, StatusEffect> currentStatus = new Dictionary<string, StatusEffect>();
+
     protected override void Awake()
     {
         base.Awake();
@@ -15,7 +18,9 @@ public abstract class PawnController : Hitable
     {
         base.Update(); //The base update manages HP
 
-        if (!isDead)
+        HandleStatusEffects();
+
+        if (!isDead && currentStunDuration <= 0)
         {
             HandleMovement();
             HandleRotation();
@@ -23,12 +28,79 @@ public abstract class PawnController : Hitable
         }
     }
 
+    public string SetStatus(StatusEffect _statusEffect)
+    {
+        string _statusID = UniqueIDGenerator.GenerateUniqueID();
+        currentStatus[_statusID] = _statusEffect;
+        return _statusID;
+    }
+    public void RemoveStatus(string _statusID)
+    {
+        if (_statusID == null) return; //StatusID is null
+        if (currentStatus.ContainsKey(_statusID))
+        {
+            currentStatus.Remove(_statusID);
+        }
+    }
+
+    private void HandleStatusEffects()
+    {
+        List<string> _statusToRemove = new List<string>();
+        //Reduce CDs
+        foreach (KeyValuePair<string, StatusEffect> _kvp in currentStatus)
+        {
+            _kvp.Value.remainingDuration -= Time.deltaTime;
+            if (_kvp.Value.remainingDuration <= 0)
+            {
+                _statusToRemove.Add(_kvp.Key);
+            }
+        }
+
+        foreach (string _statusID in _statusToRemove)
+        {
+            currentStatus.Remove(_statusID);
+        }
+    }
+
+    public List<StatusEffect> GetStatusEffects(StatusType _type)
+    {
+        List<StatusEffect> _foundStatus = new List<StatusEffect>();
+        foreach (StatusEffect _se in currentStatus.Values)
+        {
+            if (_se.type == _type) _foundStatus.Add(_se);
+        }
+        return _foundStatus;
+    }
     public abstract void HandleMovement();
     public abstract void HandleRotation();
     public abstract void HandleAttack();
-    public void Push(Vector3 _direction, float _pushDuration, Ease _ease)
+
+    public float GetSpeedMultiplier()
     {
-        charController.enabled = false;
-        transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease).OnComplete(() => charController.enabled = true);
+        float _multiplier = 1f;
+        foreach (StatusEffect _se in GetStatusEffects(StatusType.SPEED_MULTIPLIER))
+        {
+            _multiplier *= _se.intensity;
+        }
+        return _multiplier;
+    }
+
+    public bool IsStunned()
+    {
+        if (GetStatusEffects(StatusType.STUN).Count > 0) return true;
+        return false;
+    }
+
+    public Tween Push(Vector3 _direction, float _pushDuration, Ease _ease)
+    {
+        string _temp;
+        return Push(_direction, _pushDuration, _ease, out _temp);
+    }
+
+    public Tween Push(Vector3 _direction, float _pushDuration, Ease _ease, out string _statusID)
+    {
+        if (HasShield()) { _statusID = null; return null; } //Can't push if shield is active
+        _statusID = SetStatus(new StatusEffect(StatusType.STUN, _pushDuration, 1f));
+        return transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
     }
 }

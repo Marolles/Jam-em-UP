@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 1285659642223472193}
   - component: {fileID: 4804020240855345006}
   - component: {fileID: 7439291286982382719}
+  - component: {fileID: 1375230898177905267}
   m_Layer: 0
   m_Name: Enemy_Default
   m_TagString: Untagged
@@ -158,10 +159,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 1
   destroyAfterDelay: 5
-  displayHPBar: 1
-  hideHPBarWhenDead: 1
-  maxHP: 20
+  displayHPBar: 0
+  hideHPBarWhenDead: 0
+  maxHP: 4
   hpBarVerticalOffset: 2.3
+  shieldPoints: 3
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,
     type: 3}
   renderers:
@@ -169,6 +171,29 @@ MonoBehaviour:
   - {fileID: 455249826326774502}
   moveSpeed: 3
   rotationSpeed: 5
+  distanceToAttack: 3
+--- !u!114 &1375230898177905267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3157932678801722899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c78e26e26ae22e4197f79072b7f5ab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  linkedPawn: {fileID: 7439291286982382719}
+  attackDamages: 4
+  attackRadius: 60
+  attackLength: 4
+  raycastAmount: 20
+  attackSource: {fileID: 4526522650390202426}
+  pushDistance: 3
+  pushDuration: 0.25
+  pushEase: 3
+  stunDuration: 1
 --- !u!1 &4912625854137336887
 GameObject:
   m_ObjectHideFlags: 0

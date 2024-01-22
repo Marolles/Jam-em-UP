@@ -11,12 +11,16 @@ public class Hitable : MonoBehaviour
     [SerializeField] private bool hideHPBarWhenDead = false;
     [SerializeField] private int maxHP;
     [SerializeField] private float hpBarVerticalOffset = 3f;
+    [SerializeField] private int shieldPoints = 3;
 
     [SerializeField] private GameObject hpBarPrefab;
     [SerializeField] private List<Renderer> renderers; //Temporary feedback
 
+    private Tween colorFeedbackTween;
+
     private int currentHP;
     private HPBar hpBar;
+    private int currentShieldPoints;
 
     protected bool isDead = false;
 
@@ -38,10 +42,6 @@ public class Hitable : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Damage(10);
-        }
         if (hpBar != null)
         {
             MoveHPBar(transform.position + Vector3.up * hpBarVerticalOffset);
@@ -53,20 +53,47 @@ public class Hitable : MonoBehaviour
         hpBar.transform.position = Camera.main.WorldToScreenPoint(_worldPosition);
     }
 
-    public void Damage(int _damages)
+    private bool TankHitWithShield()
+    {
+        if (shieldPoints <= 0) return false;
+
+        //Shield hit feedback HERE
+        colorFeedbackTween.Kill(true);
+        foreach (Renderer _r in renderers)
+            colorFeedbackTween = _r.material.DOColor(Color.white, 0.1f).SetLoops(2, LoopType.Yoyo);
+
+        GameObject _shieldFXPrefab = Instantiate(Resources.Load<GameObject>("FX/ShieldHitFX"));
+        _shieldFXPrefab.transform.SetParent(transform);
+        _shieldFXPrefab.transform.position = transform.position + Vector3.up;
+
+        shieldPoints--;
+
+        return true;
+    }
+    public virtual void Damage(int _damages)
     {
         if (isDead) return;
+
+        if (TankHitWithShield()) { return; }
+
         currentHP = Mathf.Clamp(currentHP - _damages, 0, maxHP);
 
         if (currentHP <= 0) { Kill(); return; }
 
         //Damage feedback
+        colorFeedbackTween.Kill(true);
         foreach (Renderer _r in renderers)
-            _r.material.DOColor(Color.white, 0.1f).SetLoops(2, LoopType.Yoyo);
+            colorFeedbackTween = _r.material.DOColor(Color.white, 0.1f).SetLoops(2, LoopType.Yoyo);
         if (hpBar != null)
         {
             hpBar.UpdateBar(GetHPPercent());
         }
+    }
+
+    public bool HasShield()
+    {
+        if (currentShieldPoints > 0) return true;
+        return false;
     }
 
     public virtual void Kill()
@@ -74,8 +101,9 @@ public class Hitable : MonoBehaviour
         isDead = true;
 
         //Kill feedback
+        colorFeedbackTween.Kill(true);
         foreach (Renderer _r in renderers)
-            _r.material.DOColor(Color.white, 0.1f);
+            colorFeedbackTween = _r.material.DOColor(Color.white, 0.1f);
         if (hpBar != null)
         {
             hpBar.UpdateBar(0);
@@ -93,6 +121,7 @@ public class Hitable : MonoBehaviour
     public void Regenerate()
     {
         currentHP = maxHP;
+        currentShieldPoints = shieldPoints;
     }
 
     public int GetHP()

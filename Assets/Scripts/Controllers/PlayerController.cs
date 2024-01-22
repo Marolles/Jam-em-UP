@@ -8,6 +8,9 @@ public class PlayerController : PawnController
 {
     public static PlayerController instance;
 
+    [Header("References")]
+    [SerializeField] private PlayerHitFeedback playerHitFeedback;
+
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float acceleration = 5f;
@@ -33,7 +36,15 @@ public class PlayerController : PawnController
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GetComponent<LightAttackController>().Attack();
+            GetComponent<LightAttackController>().StartAttack();
+        }
+        
+        if (Input.GetMouseButtonDown(1))
+        {
+            foreach (AttackController _ac in GetComponents<AttackController>())
+            {
+                _ac.CancelAttack();
+            }
         }
     }
 
@@ -55,7 +66,7 @@ public class PlayerController : PawnController
         }
 
         //Apply movement to characterController
-        Vector3 _deltaMovement = _movement * Time.deltaTime * currentSpeed;
+        Vector3 _deltaMovement = _movement * Time.deltaTime * (currentSpeed * GetSpeedMultiplier());
 
         Vector3 _newPosition = MapManager.ClampPositionInRadius(transform.position + _deltaMovement);
         if (charController.enabled)
@@ -77,5 +88,11 @@ public class PlayerController : PawnController
         Vector3 _newDirection = wantedLookedPos - transform.position;
         _newDirection.y = 0;
         transform.forward = Vector3.Lerp(transform.forward, _newDirection, Time.deltaTime * rotationSpeed);
+    }
+
+    public override void Damage(int _damages)
+    {
+        base.Damage(_damages);
+        playerHitFeedback.PlayFeedback();
     }
 }
