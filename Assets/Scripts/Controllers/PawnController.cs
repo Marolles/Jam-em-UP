@@ -7,7 +7,7 @@ public abstract class PawnController : Hitable
 {
     protected CharacterController charController;
     private float currentStunDuration;
-    List<KeyValuePair<float, float>> speedModifiers = new List<KeyValuePair<float, float>>();
+    private Dictionary<string, StatusEffect> currentStatus = new Dictionary<string, StatusEffect>();
 
     protected override void Awake()
     {
@@ -18,8 +18,7 @@ public abstract class PawnController : Hitable
     {
         base.Update(); //The base update manages HP
 
-        HandleStunDuration();
-        HandleSpeedModifiers();
+        HandleStatusEffects();
 
         if (!isDead && currentStunDuration <= 0)
         {
@@ -29,60 +28,79 @@ public abstract class PawnController : Hitable
         }
     }
 
-    private void HandleSpeedModifiers()
+    public string SetStatus(StatusEffect _statusEffect)
     {
-        List<KeyValuePair<float, float>> _updatedSpeedModifiers = new List<KeyValuePair<float, float>>();
-        for (int i = 0; i < speedModifiers.Count; i++)
+        string _statusID = UniqueIDGenerator.GenerateUniqueID();
+        currentStatus[_statusID] = _statusEffect;
+        return _statusID;
+    }
+    public void RemoveStatus(string _statusID)
+    {
+        if (_statusID == null) return; //StatusID is null
+        if (currentStatus.ContainsKey(_statusID))
         {
-            KeyValuePair<float, float> _newValue = new KeyValuePair<float, float>(speedModifiers[i].Key - Time.deltaTime, speedModifiers[i].Value);
-            if (_newValue.Key > 0)
-            {
-                _updatedSpeedModifiers.Add(_newValue);
-            }
+            currentStatus.Remove(_statusID);
         }
-        speedModifiers = _updatedSpeedModifiers;
     }
 
-    private void HandleStunDuration()
+    private void HandleStatusEffects()
     {
-        if (currentStunDuration > 0)
+        List<string> _statusToRemove = new List<string>();
+        //Reduce CDs
+        foreach (KeyValuePair<string, StatusEffect> _kvp in currentStatus)
         {
-            currentStunDuration -= Time.deltaTime;
-        } else
-        {
-            currentStunDuration = 0;
+            _kvp.Value.remainingDuration -= Time.deltaTime;
+            if (_kvp.Value.remainingDuration <= 0)
+            {
+                _statusToRemove.Add(_kvp.Key);
+            }
         }
+
+        foreach (string _statusID in _statusToRemove)
+        {
+            currentStatus.Remove(_statusID);
+        }
+    }
+
+    public List<StatusEffect> GetStatusEffects(StatusType _type)
+    {
+        List<StatusEffect> _foundStatus = new List<StatusEffect>();
+        foreach (StatusEffect _se in currentStatus.Values)
+        {
+            if (_se.type == _type) _foundStatus.Add(_se);
+        }
+        return _foundStatus;
     }
     public abstract void HandleMovement();
     public abstract void HandleRotation();
     public abstract void HandleAttack();
 
-    public void Stun(float _duration)
-    {
-        if (currentStunDuration < _duration)
-        {
-            currentStunDuration = _duration;
-        }
-    }
-
     public float GetSpeedMultiplier()
     {
         float _multiplier = 1f;
-        foreach (KeyValuePair<float, float> _kvp in speedModifiers)
+        foreach (StatusEffect _se in GetStatusEffects(StatusType.SPEED_MULTIPLIER))
         {
-            _multiplier *= _kvp.Value;
+            _multiplier *= _se.intensity;
         }
         return _multiplier;
     }
 
-    public void SetSpeedMultiplier(float _duration, float _multiplier)
+    public bool IsStunned()
     {
-        speedModifiers.Add(new KeyValuePair<float, float>(_duration, _multiplier));
+        if (GetStatusEffects(StatusType.STUN).Count > 0) return true;
+        return false;
     }
-    public void Push(Vector3 _direction, float _pushDuration, Ease _ease)
+
+    public Tween Push(Vector3 _direction, float _pushDuration, Ease _ease)
     {
-        if (HasShield()) return; //Can't push if shield is active
-        Stun(_pushDuration);
-        transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
+        string _temp;
+        return Push(_direction, _pushDuration, _ease, out _temp);
+    }
+
+    public Tween Push(Vector3 _direction, float _pushDuration, Ease _ease, out string _statusID)
+    {
+        if (HasShield()) { _statusID = null; return null; } //Can't push if shield is active
+        _statusID = SetStatus(new StatusEffect(StatusType.STUN, _pushDuration, 1f));
+        return transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
     }
 }

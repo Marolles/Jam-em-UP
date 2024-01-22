@@ -22,7 +22,7 @@ public class HeavyAttackController : MonoBehaviour
     public void Attack()
     {
         //Attacker is stun for X seconds, then he attacks
-        linkedPawn.Stun(stunDuration);
+        linkedPawn.SetStatus(new StatusEffect(StatusType.STUN, stunDuration, 1f));
         Invoke("FinishAttack", stunDuration);
     }
 
