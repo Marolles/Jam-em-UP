@@ -24,4 +24,14 @@ public class HPBar : MonoBehaviour
         if (currentTween != null) currentTween.Kill(true);
         currentTween = lerpedFilling.DOFillAmount(_HPPercent, fillLerpDuration).SetEase(fillEase);
     }
+
+    public void HideHPBar(float _delay)
+    {
+        Invoke("HideBar", _delay);
+    }
+
+    private void HideBar()
+    {
+        transform.gameObject.SetActive(false);
+    }
 }

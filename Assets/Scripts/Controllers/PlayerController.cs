@@ -4,7 +4,7 @@ using System.ComponentModel;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : Hitable
+public class PlayerController : PawnController
 {
     public static PlayerController instance;
 
@@ -17,8 +17,6 @@ public class PlayerController : Hitable
 
     private float currentSpeed = 0f;
 
-    private CharacterController charController;
-
     private Plane groundPlane;
     private Vector3 wantedLookedPos;
 
@@ -28,24 +26,10 @@ public class PlayerController : Hitable
         if (instance != null) { Debug.LogError("Can't have 2 players at the same time, destroying first one."); Destroy(instance.gameObject); }
         instance = this;
 
-        charController = GetComponent<CharacterController>();
-
         groundPlane = new Plane(Vector3.up, Vector3.zero);//Generate a virtual plane at Y = 0 to check for mouse raycasts
     }
 
-    protected override void Update()
-    {
-        base.Update(); //The base update manages HP
-
-        if (!isDead)
-        {
-            HandleMovement();
-            HandleRotation();
-            HandleAttack();
-        }
-    }
-
-    private void HandleAttack()
+    public override void HandleAttack()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -53,7 +37,7 @@ public class PlayerController : Hitable
         }
     }
 
-    private void HandleMovement()
+    public override void HandleMovement()
     {
         Vector3 _movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
@@ -74,10 +58,11 @@ public class PlayerController : Hitable
         Vector3 _deltaMovement = _movement * Time.deltaTime * currentSpeed;
 
         Vector3 _newPosition = MapManager.ClampPositionInRadius(transform.position + _deltaMovement);
-        charController.Move(_newPosition - transform.position);
+        if (charController.enabled)
+            charController.Move(_newPosition - transform.position);
     }
 
-    private void HandleRotation()
+    public override void HandleRotation()
     {
         Vector3 mousePos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mousePos);

@@ -1,44 +1,30 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : Hitable
+public class EnemyController : PawnController
 {
     [Header("Movement settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
 
-    private CharacterController charController;
     private Vector3 wantedForward;
 
     protected override void Awake()
     {
         base.Awake();
-        charController = GetComponent<CharacterController>();
+        WaveManager.currentEnemies.Add(this); //Register the enemy to the wave manager, to track their amount
     }
-    protected override void Update()
-    {
-        base.Update(); //Handle HPs
-        if (!isDead)
-        {
-            HandleMovement();
-            HandleRotation();
-        }
-    }
-
-
-    private void HandleMovement()
+    public override void HandleMovement()
     {
         Transform _currentTarget = PlayerController.instance.transform;
         if (_currentTarget != null)
         {
             Vector3 _moveDirection = (_currentTarget.position - transform.position).normalized;
-            charController.Move(_moveDirection * Time.deltaTime * moveSpeed);
+            if (charController.enabled)
+                charController.Move(_moveDirection * Time.deltaTime * moveSpeed);
         }
     }
 
-    private void HandleRotation()
+    public override void HandleRotation()
     {
         Transform _currentTarget = PlayerController.instance.transform;
         if (_currentTarget != null)
@@ -48,9 +34,16 @@ public class EnemyController : Hitable
         }
         transform.forward = Vector3.Lerp(transform.forward, wantedForward, Time.deltaTime * rotationSpeed);
     }
-    public void Push(Vector3 _direction, float _pushDuration, Ease _ease)
+
+    public override void HandleAttack()
     {
-        transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
-       // charController.SimpleMove(_direction);
+        //No attack yet :(
+    }
+
+    public override void Kill()
+    {
+        base.Kill();
+        if (WaveManager.currentEnemies.Contains(this))
+            WaveManager.currentEnemies.Remove(this); //Unregister the enemy from the wave manager since it is dead
     }
 }

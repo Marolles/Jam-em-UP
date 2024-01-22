@@ -20,6 +20,7 @@ public class AttackController : MonoBehaviour
 
     public void Attack()
     {
+        //Checks for 'hitable' in front of the attacksource, at a certain angle, and store them in a list
         List<Hitable> _hitTargets = new List<Hitable>();
         Vector3 _attackDirection = attackSource.forward;
 
@@ -28,7 +29,7 @@ public class AttackController : MonoBehaviour
         {
             Vector3 rayDirection = Quaternion.Euler(0, -attackRadius / 2 + i * _angleBetweenRays, 0) * _attackDirection;
 
-            Ray ray = new Ray(transform.position, rayDirection);
+            Ray ray = new Ray(attackSource.position, rayDirection);
             Debug.DrawRay(attackSource.position, rayDirection * attackLength, Color.red, 1f);
 
             foreach (RaycastHit _hit in Physics.RaycastAll(ray, attackLength))
@@ -36,7 +37,6 @@ public class AttackController : MonoBehaviour
                 Hitable _foundHitable = _hit.transform.GetComponent<Hitable>();
                 if (_foundHitable != null)
                 {
-                    Debug.Log("Found hitable");
                     if (_foundHitable.GetTeamID() != attackerTeam && !_hitTargets.Contains(_foundHitable))
                     {
                         _hitTargets.Add(_foundHitable);
@@ -45,11 +45,15 @@ public class AttackController : MonoBehaviour
             }
         }
 
-        //Apply damages to hit targets
+        //Apply damages and push found targets
         foreach (Hitable _hitable in _hitTargets)
         {
             _hitable.Damage(attackDamages);
-            _hitable.GetComponent<EnemyController>().Push(attackSource.forward * pushDistance, pushDuration, pushEase);
+            PawnController _foundPawn = _hitable.GetComponent<PawnController>();
+            if (_foundPawn != null)
+            {
+                _foundPawn.Push(attackSource.forward * pushDistance, pushDuration, pushEase);
+            }
         }
     }
 }

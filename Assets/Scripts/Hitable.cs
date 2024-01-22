@@ -6,7 +6,9 @@ public class Hitable : MonoBehaviour
 {
     [Header("Health Settings")]
     [SerializeField] private TeamID teamID;
+    [SerializeField] private float destroyAfterDelay = -1;
     [SerializeField] private bool displayHPBar;
+    [SerializeField] private bool hideHPBarWhenDead = false;
     [SerializeField] private int maxHP;
     [SerializeField] private float hpBarVerticalOffset = 3f;
 
@@ -67,7 +69,7 @@ public class Hitable : MonoBehaviour
         }
     }
 
-    public void Kill()
+    public virtual void Kill()
     {
         isDead = true;
 
@@ -77,6 +79,15 @@ public class Hitable : MonoBehaviour
         if (hpBar != null)
         {
             hpBar.UpdateBar(0);
+            if (hideHPBarWhenDead)
+            {
+                hpBar.HideHPBar(0.2f);
+            }
+        }
+
+        if (destroyAfterDelay >= 0)
+        {
+            Invoke("Delete", destroyAfterDelay);
         }
     }
     public void Regenerate()
@@ -97,5 +108,11 @@ public class Hitable : MonoBehaviour
     public TeamID GetTeamID()
     {
         return teamID;
+    }
+
+    public virtual void Delete()
+    {
+        if (hpBar != null) { Destroy(hpBar.gameObject); }
+        Destroy(this.gameObject);
     }
 }
