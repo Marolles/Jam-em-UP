@@ -33,7 +33,7 @@ public class PlayerController : PawnController
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GetComponent<AttackController>().Attack();
+            GetComponent<LightAttackController>().Attack();
         }
     }
 

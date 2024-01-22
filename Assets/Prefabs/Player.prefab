@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
+  destroyAfterDelay: -1
   displayHPBar: 1
   hideHPBarWhenDead: 0
   maxHP: 100
