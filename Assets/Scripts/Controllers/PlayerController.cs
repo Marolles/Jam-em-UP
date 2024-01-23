@@ -139,7 +139,8 @@ public class PlayerController : PawnController
     public override void Damage(int _damages, DamageType _type, Vector3 _hitDirection)
     {
         base.Damage(_damages, _type, _hitDirection);
-       // playerHitFeedback.PlayFeedback();
+        if(playerHitFeedback!=null)
+            playerHitFeedback.PlayFeedback();
     }
 
     public override void Kill(DamageType _fatalDamageType)

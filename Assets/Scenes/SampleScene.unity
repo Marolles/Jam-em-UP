@@ -4058,6 +4058,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1410846464 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6204059431094178692, guid: 28bbaf9273cf99048aef4de3735fc7df,
+    type: 3}
+  m_PrefabInstance: {fileID: 1623453091}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1420684668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8514930055670025282, guid: cfd2c1dab4467e54b9d00b4b9accaa0b,
@@ -5319,22 +5325,17 @@ PrefabInstance:
     - target: {fileID: 2794438186323490694, guid: 344ba6b775c355f4eb3088eec9eba60a,
         type: 3}
       propertyPath: cooldown
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2794438186323490694, guid: 344ba6b775c355f4eb3088eec9eba60a,
-        type: 3}
-      propertyPath: endOfAttackSlowDuration
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2794438186323490694, guid: 344ba6b775c355f4eb3088eec9eba60a,
-        type: 3}
-      propertyPath: endOfAttackSlowMultiplier
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2992018603172923930, guid: 344ba6b775c355f4eb3088eec9eba60a,
         type: 3}
       propertyPath: playerHitVignetteAnimator
       value: 
+      objectReference: {fileID: 1410846464}
+    - target: {fileID: 4217958851208518853, guid: 344ba6b775c355f4eb3088eec9eba60a,
+        type: 3}
+      propertyPath: ticklingDuration
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6382795134893557026, guid: 344ba6b775c355f4eb3088eec9eba60a,
         type: 3}
@@ -6224,8 +6225,8 @@ MonoBehaviour:
   - {fileID: 140753323}
   enemyPrefab: {fileID: 3157932678801722899, guid: 21c6cf3fc40e1b548a3534a0d8ee4a9b,
     type: 3}
-  delayBetweenSpawns: 5
-  maxSimultaneousEnemies: 1
+  delayBetweenSpawns: 4
+  maxSimultaneousEnemies: 5
 --- !u!4 &1977144891
 Transform:
   m_ObjectHideFlags: 0
