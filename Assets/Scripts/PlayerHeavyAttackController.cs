@@ -102,7 +102,7 @@ public class PlayerHeavyAttackController : AttackController
             //Apply damages and push found targets
             foreach (Hitable _hitable in _foundHitables)
             {
-                _hitable.Damage(attackDamages, DamageType.Attack);
+                _hitable.Damage(attackDamages, DamageType.Attack, attackSource.position);
                 PawnController _foundPawn = _hitable.GetComponent<PawnController>();
                 if (_foundPawn != null)
                 {

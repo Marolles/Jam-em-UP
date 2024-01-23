@@ -74,7 +74,7 @@ public class TickleController : AttackController
 
     private void FinishTickle()
     {
-        tickleTarget.Damage(999, DamageType.Tickling);
+        tickleTarget.Damage(999, DamageType.Tickling, attackSource.position);
     }
 
     protected override void Update()

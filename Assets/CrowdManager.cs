@@ -28,11 +28,24 @@ public class CrowdManager : MonoBehaviour
         spectators = spectators.OrderBy(i => Guid.NewGuid()).ToList();
     }
 
+    public List<Spectator> GetAngrySpectators()
+    {
+        List<Spectator> _angrySpectators = new List<Spectator>();
+        foreach (Spectator _spectator in spectators)
+        {
+            if (_spectator.GetStatus() == Spectator.SpectatorStatus.ANGRY)
+            {
+                _angrySpectators.Add(_spectator);
+            }
+        }
+        return _angrySpectators;
+    }
+
     public void UpdateCrowdColor() //Must be called EVERY TIME the fame gets updated
     {
         float _fameValue = FameController.GetFameValueNormalized();
-        float _angrynessPercent = 1f - (_fameValue * 2);
-        float _happinessPercent = 2 * (_fameValue - 0.5f);
+        float _angrynessPercent = FameController.GetAngrinessNormalized();
+        float _happinessPercent = FameController.GetHappinessNormalized();
         //List<Spectator> _spectatorsAffectedByChange = GetSpectatorsFromRange()
 
         for (int i = 0; i < spectators.Count; i++)

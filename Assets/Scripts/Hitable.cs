@@ -23,12 +23,10 @@ public class Hitable : MonoBehaviour
     private int currentShieldPoints;
 
     protected bool isDead = false;
-    private Color defaultColor;
 
 
     protected virtual void Awake()
     {
-        defaultColor = renderers[0].sharedMaterial.color;
         Regenerate();
         if (displayHPBar)
         {
@@ -55,28 +53,32 @@ public class Hitable : MonoBehaviour
         hpBar.transform.position = Camera.main.WorldToScreenPoint(_worldPosition);
     }
 
-    private bool TankHitWithShield()
+    private bool TankHitWithShield(Vector3 _hitDirection)
     {
         if (currentShieldPoints <= 0) return false;
 
         //Shield hit feedback HERE
         colorFeedbackTween.Kill(true);
         foreach (Renderer _r in renderers)
-            colorFeedbackTween = _r.material.DOColor(Color.white, 0.1f).SetLoops(2, LoopType.Yoyo);
+            colorFeedbackTween = _r.material.DOColor(Color.white, "_Emissive_Color", 0.1f).SetLoops(2, LoopType.Yoyo);
 
-        GameObject _shieldFXPrefab = Instantiate(Resources.Load<GameObject>("FX/ShieldHitFX"));
+        GameObject _shieldFXPrefab = Instantiate(Resources.Load<GameObject>("FX/FX_ShieldHit"));
         _shieldFXPrefab.transform.SetParent(transform);
         _shieldFXPrefab.transform.position = transform.position + Vector3.up;
+
+        ArmorController _ac = GetComponent<ArmorController>();
+        if (_ac != null) _ac.RemoveNextArmorPiece(_hitDirection);
 
         currentShieldPoints--;
 
         return true;
     }
-    public virtual void Damage(int _damages, DamageType _type)
+    public virtual void Damage(int _damages, DamageType _type, Vector3 _hitOrigin)
     {
+        Debug.Log("Received damage: " + _damages + " type: " + _type);
         if (isDead) return;
 
-        if (TankHitWithShield()) { return; }
+        if (TankHitWithShield(_hitOrigin)) { return; }
 
         currentHP = Mathf.Clamp(currentHP - _damages, 0, maxHP);
 
@@ -109,8 +111,6 @@ public class Hitable : MonoBehaviour
 
         //Kill feedback
         colorFeedbackTween.Kill(true);
-        foreach (Renderer _r in renderers)
-            colorFeedbackTween = _r.material.DOColor(Color.white, 0.1f);
         if (hpBar != null)
         {
             hpBar.UpdateBar(0);
@@ -136,7 +136,7 @@ public class Hitable : MonoBehaviour
             hpBar.UpdateBar(1f);
         }
         foreach (Renderer _r in renderers)
-            colorFeedbackTween = _r.material.DOColor(defaultColor, 0.1f).SetLoops(3, LoopType.Yoyo);
+            colorFeedbackTween = _r.material.DOColor(Color.white, "_Emissive_Color", 0.1f).SetLoops(4, LoopType.Yoyo);
     }
 
     public int GetHP()

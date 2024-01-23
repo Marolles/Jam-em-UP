@@ -25,6 +25,18 @@ public class FameController : MonoBehaviour
         UpdateFameBar();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            IncreaseFameValue(10f);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            DecreaseFameValue(10);
+        }
+    }
+
     public static float GetFameValue()
     {
         return currentFameValue;
@@ -33,6 +45,16 @@ public class FameController : MonoBehaviour
     public static float GetFameValueNormalized()
     {
         return currentFameValue / instance.maxFameValue;
+    }
+
+    public static float GetAngrinessNormalized()
+    {
+        return (1f - (GetFameValueNormalized() * 2));
+    }
+
+    public static float GetHappinessNormalized()
+    {
+        return (2 * (GetFameValueNormalized() - 0.5f));
     }
 
     public static void IncreaseFameValue(float _amount)
