@@ -104,6 +104,7 @@ public class PlayerController : PawnController
 
         //Apply movement to characterController
         Vector3 _deltaMovement = _movement * Time.deltaTime * (currentSpeed * GetSpeedMultiplier());
+        _deltaMovement -= Vector3.up * 9.81f * Time.deltaTime;
 
         Vector3 _newPosition = MapManager.ClampPositionInRadius(transform.position + _deltaMovement);
         if (charController.enabled)
@@ -127,9 +128,9 @@ public class PlayerController : PawnController
         transform.forward = Vector3.Lerp(transform.forward, _newDirection, Time.deltaTime * rotationSpeed);
     }
 
-    public override void Damage(int _damages, DamageType _type)
+    public override void Damage(int _damages, DamageType _type, Vector3 _hitDirection)
     {
-        base.Damage(_damages, _type);
+        base.Damage(_damages, _type, _hitDirection);
        // playerHitFeedback.PlayFeedback();
     }
 

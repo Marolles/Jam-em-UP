@@ -26,20 +26,6 @@ public class ArenaController : MonoBehaviour
         frozen = false;
     }
 
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            FreezeArena();
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            UnfreezeArena();
-            PlayerController.instance.Regenerate();
-        }
-    }
-
     public static bool IsFrozen()
     {
         return frozen;
