@@ -32,16 +32,25 @@ public class PlayerController : PawnController
         groundPlane = new Plane(Vector3.up, Vector3.zero);//Generate a virtual plane at Y = 0 to check for mouse raycasts
     }
 
+    protected override void Update() //ONLY FOR DEBUG INPUTS, SHOULD BE REMOVED BEFORE RELEASE
+    {
+        base.Update();
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CancelAttacks();
+        }
+    }
+
     public override void HandleAttack()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GetComponent<LightAttackController>().StartAttack();
+            GetComponent<LightAttackController>().TryAttack();
         }
-        
         if (Input.GetMouseButtonDown(1))
         {
-            CancelAttacks();
+            GetComponent<TickleController>().TryAttack();
         }
     }
 
@@ -90,6 +99,6 @@ public class PlayerController : PawnController
     public override void Damage(int _damages)
     {
         base.Damage(_damages);
-        playerHitFeedback.PlayFeedback();
+       // playerHitFeedback.PlayFeedback();
     }
 }

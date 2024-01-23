@@ -5,7 +5,6 @@ using UnityEngine;
 public class LightAttackController : AttackController
 {
     [Header("Settings")]
-    [SerializeField] private PawnController linkedPawn;
     [SerializeField] private int attackDamages = 10;
     [SerializeField] private float attackRadius;
     [SerializeField] private float attackLength;
@@ -25,27 +24,22 @@ public class LightAttackController : AttackController
     [SerializeField] private float endOfAttackSlowMultiplier = 0.2f;
     [SerializeField] private float endOfAttackSlowDuration = 1f;
 
-    [SerializeField] private float cooldown = 1f;
-
 
     private List<Hitable> recentlyHitPawns = new List<Hitable>();
     private bool attacking = false;
-    private float currentCD;
 
     private List<string> attackStatus = new List<string>(); //Store attack status to cancel them if necessary
     private List<Tween> attackTweens = new List<Tween>(); //Same for tweens
-    public void StartAttack()
+    protected override void StartAttack()
     {
         //Reset values
-        if (currentCD > 0) return;
         attackTweens.Clear();
         attackStatus.Clear();
-        currentCD = cooldown;
         recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
 
         //Start anticipation
         attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, anticipationSlowDuration, anticipationSlowMultiplier)));
-        Invoke("StartDash", dashDuration);
+        Invoke("StartDash", anticipationSlowDuration);
     }
 
     public void StartDash()
@@ -62,7 +56,7 @@ public class LightAttackController : AttackController
         CancelInvoke();
         foreach (Tween _tween in attackTweens)
         {
-            if (_tween != null) _tween.Kill(false);
+            _tween?.Kill(false);
         }
         foreach (string _statusID in attackStatus)
         {
@@ -77,20 +71,9 @@ public class LightAttackController : AttackController
         attacking = false;
     }
 
-    private void HandleCooldown()
+    protected override void Update()
     {
-        if (currentCD > 0)
-        {
-            currentCD -= Time.deltaTime;
-        } else
-        {
-            currentCD = 0;
-        }
-    }
-
-    private void Update()
-    {
-        HandleCooldown();
+        base.Update();
         if (attacking)
         {
             Vector3 _attackDirection = attackSource.forward;

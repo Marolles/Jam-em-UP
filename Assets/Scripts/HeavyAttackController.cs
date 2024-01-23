@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 public class HeavyAttackController : AttackController
 {
     [Header("Settings")]
-    [SerializeField] private PawnController linkedPawn;
     [SerializeField] private int attackDamages = 10;
     [SerializeField] private float attackRadius;
     [SerializeField] private float attackLength;
@@ -29,38 +28,36 @@ public class HeavyAttackController : AttackController
     [SerializeField] private float endOfAttackSlowMultiplier = 0.2f;
     [SerializeField] private float endOfAttackSlowDuration = 1f;
 
-    [SerializeField] private float cooldown = 1f;
-
 
     private List<Hitable> recentlyHitPawns = new List<Hitable>();
     private bool attacking = false;
-    private float currentCD;
 
     private List<string> attackStatus = new List<string>(); //Store attack status to cancel them if necessary
     private List<Tween> attackTweens = new List<Tween>(); //Same for tweens
-    public void StartAttack()
+    protected override void StartAttack()
     {
         //Reset values
-        if (currentCD > 0) return;
         attackTweens.Clear();
         attackStatus.Clear();
-        currentCD = cooldown;
         recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
 
         //Start anticipation
         float _anticipationFirstPartDuration = anticipationDuration * anticipationPercentTrackingPlayer;
+        Debug.Log("Slowing");
         attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, _anticipationFirstPartDuration, anticipationSlowMultiplier)));
         Invoke("AnticipationSecondPart", _anticipationFirstPartDuration);
     }
 
     private void AnticipationSecondPart()
     {
-        float _anticipationSecondPartDuration = anticipationDuration * (1 - anticipationPercentTrackingPlayer);
-        attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.STUN, _anticipationSecondPartDuration, 1)));
+        Debug.Log("Stun");
+        float _anticipationSecondPartDuration = anticipationDuration * (1f - anticipationPercentTrackingPlayer);
+        attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.STUN, _anticipationSecondPartDuration + 0.1f, 1)));
         Invoke("StartDash", _anticipationSecondPartDuration);
     }
     public void StartDash()
     {
+        Debug.Log("Stun");
         attacking = true;
         string _dashStatusID;
         attackTweens.Add(linkedPawn.Push(linkedPawn.transform.forward * dashDistance, dashDuration, dashEase, out _dashStatusID));
@@ -87,22 +84,9 @@ public class HeavyAttackController : AttackController
         attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, endOfAttackSlowDuration, endOfAttackSlowMultiplier)));
         attacking = false;
     }
-
-    private void HandleCooldown()
+    protected override void Update()
     {
-        if (currentCD > 0)
-        {
-            currentCD -= Time.deltaTime;
-        }
-        else
-        {
-            currentCD = 0;
-        }
-    }
-
-    private void Update()
-    {
-        HandleCooldown();
+        base.Update();
         if (attacking)
         {
             Vector3 _attackDirection = attackSource.forward;

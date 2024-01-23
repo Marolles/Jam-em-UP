@@ -185,23 +185,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedPawn: {fileID: 7439291286982382719}
+  cooldown: 2.5
   attackDamages: 4
   attackRadius: 60
-  attackLength: 4
+  attackLength: 3
   raycastAmount: 20
-  attackSource: {fileID: 4526522650390202426}
+  attackSource: {fileID: 7742104731458040163}
   pushForce: 1
   pushDuration: 0.25
   pushEase: 3
-  dashDistance: 1
+  dashDistance: 1.7
   dashDuration: 0.2
   dashEase: 2
-  anticipationSlowMultiplier: 0.2
+  anticipationSlowMultiplier: 0.1
   anticipationDuration: 1
   anticipationPercentTrackingPlayer: 0.5
   endOfAttackSlowMultiplier: 0.2
   endOfAttackSlowDuration: 1
-  cooldown: 1
 --- !u!1 &4912625854137336887
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +213,6 @@ GameObject:
   - component: {fileID: 4526522650390202426}
   - component: {fileID: 1872870457929599734}
   - component: {fileID: 455249826326774502}
-  - component: {fileID: 7052643862339080393}
   m_Layer: 0
   m_Name: ForwardIndicator(TEMP)
   m_TagString: Untagged
@@ -286,24 +285,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7052643862339080393
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4912625854137336887}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

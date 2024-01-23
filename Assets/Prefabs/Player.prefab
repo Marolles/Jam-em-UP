@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 7852764903341257616}
   - component: {fileID: 2794438186323490694}
   - component: {fileID: 2992018603172923930}
+  - component: {fileID: 4217958851208518853}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -325,20 +326,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedPawn: {fileID: 7852764903341257616}
-  attackDamages: 7
+  cooldown: 0.25
+  attackDamages: 1
   attackRadius: 30
   attackLength: 5
   raycastAmount: 10
   attackSource: {fileID: 1827849437075179601}
   pushForce: 1
   pushDuration: 0.2
-  pushEase: 3
-  dashDistance: 1
-  dashDuration: 0.2
+  pushEase: 2
+  dashDistance: 1.3
+  dashDuration: 0.15
   dashEase: 2
-  endOfAttackSlowMultiplier: 0.2
-  endOfAttackSlowDuration: 0.3
-  cooldown: 1
+  anticipationSlowMultiplier: 1
+  anticipationSlowDuration: 0
+  endOfAttackSlowMultiplier: 0.1
+  endOfAttackSlowDuration: 0.15
 --- !u!114 &2992018603172923930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,3 +355,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHitVignetteAnimator: {fileID: 0}
+--- !u!114 &4217958851208518853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045684542930204831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f849d8181b5ec4cb24155a7309ff40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  linkedPawn: {fileID: 7852764903341257616}
+  cooldown: 1
+  attackRadius: 60
+  attackLength: 10
+  raycastAmount: 20
+  attackSource: {fileID: 1827849437075179601}

@@ -14,6 +14,11 @@ public class EnemyController : PawnController
         base.Awake();
         WaveManager.currentEnemies.Add(this); //Register the enemy to the wave manager, to track their amount
     }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
     public override void HandleMovement()
     {
         Transform _currentTarget = PlayerController.instance.transform;
@@ -41,7 +46,7 @@ public class EnemyController : PawnController
         float _distanceToPlayer = Vector3.Distance(PlayerController.instance.transform.position, transform.position);
         if (_distanceToPlayer < distanceToAttack)
         {
-            GetComponent<HeavyAttackController>().StartAttack();
+            GetComponent<HeavyAttackController>().TryAttack();
         }
     }
 

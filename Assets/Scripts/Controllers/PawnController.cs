@@ -6,7 +6,6 @@ using UnityEngine;
 public abstract class PawnController : Hitable
 {
     protected CharacterController charController;
-    private float currentStunDuration;
     private Dictionary<string, StatusEffect> currentStatus = new Dictionary<string, StatusEffect>();
 
     protected override void Awake()
@@ -20,7 +19,7 @@ public abstract class PawnController : Hitable
 
         HandleStatusEffects();
 
-        if (!isDead && currentStunDuration <= 0)
+        if (!isDead && !IsStunned())
         {
             HandleMovement();
             HandleRotation();
@@ -107,7 +106,6 @@ public abstract class PawnController : Hitable
 
     public Tween Push(Vector3 _direction, float _pushDuration, Ease _ease, out string _statusID)
     {
-        if (HasShield()) { _statusID = null; return null; } //Can't push if shield is active
         _statusID = SetStatus(new StatusEffect(StatusType.STUN, _pushDuration, 1f));
         return transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
     }

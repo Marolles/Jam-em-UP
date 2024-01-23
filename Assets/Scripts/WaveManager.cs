@@ -14,12 +14,17 @@ public class WaveManager : MonoBehaviour
 
     private void Awake()
     {
+        currentEnemies.Clear();
+    }
+    private void Start()
+    {
         StartWave();
     }
 
     public void StartWave()
     {
         SpawnNextEnemy();
+        Debug.Log("Wave started");
     }
 
     private void SpawnNextEnemy()
@@ -27,7 +32,11 @@ public class WaveManager : MonoBehaviour
         if (currentEnemies.Count < maxSimultaneousEnemies) 
         {
             Spawner _randomSpawner = GetRandomSpawner();
+            Debug.Log("Enemy count is correct, spawning new enemy");
             _randomSpawner.SpawnEnemy(enemyPrefab);
+        } else
+        {
+            Debug.Log("Too much enemies, not spawning a new ");
         }
         Invoke("SpawnNextEnemy", delayBetweenSpawns);
     }
