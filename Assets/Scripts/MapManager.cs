@@ -14,6 +14,17 @@ public class MapManager : MonoBehaviour
         instance = this;
     }
 
+    public static bool IsOutsideOfArena(Vector3 _position)
+    {
+        float distanceToCenter = Vector3.Distance(Vector3.zero, _position);
+
+        if (distanceToCenter > instance.mapRadius)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public static Vector3 ClampPositionInRadius(Vector3 _position)
     {
         float distanceToCenter = Vector3.Distance(Vector3.zero, _position);

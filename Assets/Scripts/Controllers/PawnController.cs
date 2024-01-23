@@ -10,6 +10,8 @@ public abstract class PawnController : Hitable
     private Dictionary<string, StatusEffect> currentStatus = new Dictionary<string, StatusEffect>();
     private Transform lockedLookedTarget; //If true, will look this target, else HandleRotation will take over
 
+
+    private Tween pushTween;
     protected Vector3 movementVector;
 
     protected override void Awake()
@@ -39,6 +41,14 @@ public abstract class PawnController : Hitable
                 LookLockedTarget();
             }
             HandleAttack();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (MapManager.IsOutsideOfArena(transform.position))
+        {
+            pushTween.Kill(false);
         }
     }
 
@@ -137,13 +147,15 @@ public abstract class PawnController : Hitable
     public Tween Push(Vector3 _direction, float _pushDuration, Ease _ease)
     {
         string _temp;
-        return Push(_direction, _pushDuration, _ease, out _temp);
+        pushTween = Push(_direction, _pushDuration, _ease, out _temp);
+        return pushTween;
     }
 
     public Tween Push(Vector3 _direction, float _pushDuration, Ease _ease, out string _statusID)
     {
         _statusID = SetStatus(new StatusEffect(StatusType.STUN, _pushDuration, 1f));
-        return transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
+        pushTween = transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
+        return pushTween;
     }
 
     public override void Damage(int _damages, DamageType _type, Vector3 _hitOrigin)

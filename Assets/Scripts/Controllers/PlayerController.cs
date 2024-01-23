@@ -77,7 +77,7 @@ public class PlayerController : PawnController
             if (leftClickDuration < leftClickDurationToTriggerHeavyAttack)
                 GetComponent<LightAttackController>().TryAttack();
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             GetComponent<TickleController>().TryAttack();
         }
