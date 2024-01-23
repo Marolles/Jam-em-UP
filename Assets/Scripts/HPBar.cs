@@ -16,7 +16,6 @@ public class HPBar : MonoBehaviour
 
 
     private Tween currentTween;
-    private Transform followedTransform;
 
     public void UpdateBar(float _HPPercent)
     {
