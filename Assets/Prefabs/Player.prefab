@@ -148,6 +148,8 @@ MonoBehaviour:
   maxHP: 10
   hpBarVerticalOffset: 2.3
   shieldPoints: 0
+  deleteAnimDuration: 0.5
+  deleteAnimEase: 9
   stunDurationWhenShieldDown: 1
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,
     type: 3}
@@ -157,7 +159,7 @@ MonoBehaviour:
   - {fileID: 4716681846622894447}
   - {fileID: 6065646898825629291}
   animator: {fileID: 4570198900907625702}
-  playerHitFeedback: {fileID: 0}
+  playerHitFeedback: {fileID: 2992018603172923930}
   moveSpeed: 5
   acceleration: 5
   deceleration: 7
@@ -230,8 +232,8 @@ MonoBehaviour:
   attackLength: 3
   raycastAmount: 20
   attackSource: {fileID: 8528390838461710169}
-  ticklingDuration: 1
-  ticklingSlowMultiplier: 0.1
+  ticklingDuration: 0.7
+  ticklingSlowMultiplier: 0.4
   maxTicklingDistance: 4
 --- !u!114 &6092209281374747861
 MonoBehaviour:
