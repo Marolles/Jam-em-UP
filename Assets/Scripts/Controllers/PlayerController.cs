@@ -48,6 +48,16 @@ public class PlayerController : PawnController
         groundPlane = new Plane(Vector3.up, Vector3.zero);//Generate a virtual plane at Y = 0 to check for mouse raycasts
     }
 
+    protected override void Update()
+    {
+        //Dash is here because it can be casted even while stunned
+        if (Input.GetKeyDown(KeyCode.Space) && !isDead && !ArenaController.IsFrozen())
+        {
+                GetComponent<DashController>().TryAttack();
+        }
+        base.Update();
+    }
+
     public override void HandleAttack()
     {
         if (Input.GetMouseButton(0))
@@ -72,10 +82,6 @@ public class PlayerController : PawnController
         if (Input.GetMouseButtonUp(1))
         {
             GetComponent<TickleController>().CancelAttack();
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GetComponent<DashController>().TryAttack();
         }
     }
 
