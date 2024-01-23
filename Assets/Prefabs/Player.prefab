@@ -273,9 +273,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedPawn: {fileID: 7852764903341257616}
-  cooldown: 1
-  dashDistance: 5
-  dashDuration: 0.5
+  cooldown: 0.45
+  dashDistance: 3.5
+  dashDuration: 0.25
   dashEase: 3
 --- !u!1001 &2954121537525849441
 PrefabInstance:

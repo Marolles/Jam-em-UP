@@ -11,6 +11,7 @@ public class ArenaController : MonoBehaviour
 
     private static bool frozen = false;
 
+    [SerializeField] private Animator kingAnim;
     [SerializeField] private CinemachineVirtualCamera kingCamera;
 
     [SerializeField] private Transform king;
@@ -73,18 +74,23 @@ public class ArenaController : MonoBehaviour
         kingCamera.m_Priority = 11;
 
         Invoke("KingJudgement", turnDuration + 1f);
+
+        kingAnim.SetTrigger("DecideTrigger");
     }
 
     private void KingJudgement()
     {
         //Show either a THUMBS UP or THUMBS DOWN
-
         if (FameController.GetFameValue() > requiredFameForMercy)
         {
-            Invoke("ShowMercy", 1f);
+            Invoke("ShowMercy", 3.5f);
+            kingAnim.SetTrigger("ThumbUpTrigger");
+
         } else
         {
-            Invoke("KillPlayer", 1f);
+            Invoke("KillPlayer", 3.5f);
+            kingAnim.SetTrigger("ThumbDownTrigger");
+
         }
     }
 
