@@ -14,13 +14,18 @@ public abstract class PawnController : Hitable
         base.Awake();
         charController = GetComponent<CharacterController>();
     }
+
+    private void Start()
+    {
+        ArenaController.alivePawns.Add(this);
+    }
     protected override void Update()
     {
         base.Update(); //The base update manages HP
 
         HandleStatusEffects();
 
-        if (!isDead && !IsStunned())
+        if (!isDead && !IsStunned() && !ArenaController.IsFrozen())
         {
             HandleMovement();
             if (!lockedLookedTarget)
@@ -137,5 +142,25 @@ public abstract class PawnController : Hitable
     {
         CancelAttacks();
         base.Kill(_fatalDamageType);
+
+        if (ArenaController.alivePawns.Contains(this))
+            ArenaController.alivePawns.Remove(this);
+    }
+    public List<PawnController> GetPawnsInRadius(float radius)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+
+        List<PawnController> _pawnFound = new List<PawnController>();
+
+        foreach (Collider collider in colliders)
+        {
+            PawnController _pawn = collider.GetComponent<PawnController>();
+            if (_pawn != null)
+            {
+                _pawnFound.Add(_pawn);
+            }
+        }
+
+        return _pawnFound;
     }
 }

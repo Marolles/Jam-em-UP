@@ -26,7 +26,8 @@ public class Spectator : MonoBehaviour
 
     private void Update()
     {
-        LookAtPlayer();
+        if (!ArenaController.IsFrozen())
+            LookAtPlayer();
     }
 
     private void LookAtPlayer()
