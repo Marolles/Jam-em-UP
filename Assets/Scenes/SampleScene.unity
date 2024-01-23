@@ -5332,11 +5332,6 @@ PrefabInstance:
       propertyPath: playerHitVignetteAnimator
       value: 
       objectReference: {fileID: 1410846464}
-    - target: {fileID: 4217958851208518853, guid: 344ba6b775c355f4eb3088eec9eba60a,
-        type: 3}
-      propertyPath: ticklingDuration
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6382795134893557026, guid: 344ba6b775c355f4eb3088eec9eba60a,
         type: 3}
       propertyPath: m_LocalPosition.x
