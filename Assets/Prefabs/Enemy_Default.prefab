@@ -158,7 +158,7 @@ MonoBehaviour:
   dashDuration: 0.2
   dashEase: 2
   anticipationSlowMultiplier: 0.1
-  anticipationDuration: 1
+  anticipationDuration: 0.45
   anticipationPercentTrackingPlayer: 0.5
   endOfAttackSlowMultiplier: 0.2
   endOfAttackSlowDuration: 1
