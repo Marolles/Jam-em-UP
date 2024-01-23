@@ -13,6 +13,9 @@ public class Hitable : MonoBehaviour
     [SerializeField] private float hpBarVerticalOffset = 3f;
     [SerializeField] private int shieldPoints = 3;
 
+    [SerializeField] private float deleteAnimDuration = 0.5f;
+    [SerializeField] private Ease deleteAnimEase = Ease.OutCubic;
+
     [SerializeField] private float stunDurationWhenShieldDown = 1f;
 
     [SerializeField] private GameObject hpBarPrefab;
@@ -169,6 +172,12 @@ public class Hitable : MonoBehaviour
     public virtual void Delete()
     {
         if (hpBar != null) { Destroy(hpBar.gameObject); }
+        transform.DOScale(0, deleteAnimDuration).SetEase(deleteAnimEase);
+        Invoke("DeleteEnd", deleteAnimDuration);
+    }
+
+    private void DeleteEnd()
+    {
         Destroy(this.gameObject);
     }
 }
