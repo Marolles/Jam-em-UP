@@ -43,6 +43,14 @@ public abstract class PawnController : Hitable
         }
     }
 
+    public void CancelAttacks()
+    {
+        foreach (AttackController _ac in GetComponents<AttackController>())
+        {
+            _ac.CancelAttack();
+        }
+    }
+
     private void HandleStatusEffects()
     {
         List<string> _statusToRemove = new List<string>();

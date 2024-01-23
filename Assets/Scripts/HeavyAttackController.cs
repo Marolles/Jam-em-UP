@@ -23,7 +23,8 @@ public class HeavyAttackController : AttackController
     [SerializeField] private Ease dashEase;
 
     [SerializeField] private float anticipationSlowMultiplier = 0.2f;
-    [SerializeField] private float anticipationSlowDuration = 1f;
+    [SerializeField] private float anticipationDuration = 1f;
+    [SerializeField] private float anticipationPercentTrackingPlayer = 0.5f;
 
     [SerializeField] private float endOfAttackSlowMultiplier = 0.2f;
     [SerializeField] private float endOfAttackSlowDuration = 1f;
@@ -39,18 +40,28 @@ public class HeavyAttackController : AttackController
     private List<Tween> attackTweens = new List<Tween>(); //Same for tweens
     public void StartAttack()
     {
+        //Reset values
         if (currentCD > 0) return;
         attackTweens.Clear();
         attackStatus.Clear();
         currentCD = cooldown;
-        attacking = true;
         recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
-        attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, anticipationSlowDuration, anticipationSlowMultiplier)));
-        Invoke("StartDash", dashDuration);
+
+        //Start anticipation
+        float _anticipationFirstPartDuration = anticipationDuration * anticipationPercentTrackingPlayer;
+        attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, _anticipationFirstPartDuration, anticipationSlowMultiplier)));
+        Invoke("AnticipationSecondPart", _anticipationFirstPartDuration);
     }
 
+    private void AnticipationSecondPart()
+    {
+        float _anticipationSecondPartDuration = anticipationDuration * (1 - anticipationPercentTrackingPlayer);
+        attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.STUN, _anticipationSecondPartDuration, 1)));
+        Invoke("StartDash", _anticipationSecondPartDuration);
+    }
     public void StartDash()
     {
+        attacking = true;
         string _dashStatusID;
         attackTweens.Add(linkedPawn.Push(linkedPawn.transform.forward * dashDistance, dashDuration, dashEase, out _dashStatusID));
         attackStatus.Add(_dashStatusID);
@@ -129,6 +140,9 @@ public class HeavyAttackController : AttackController
                     _pushDirection.y = 0;
                     _pushDirection.Normalize();
                     _foundPawn.Push(_pushDirection * pushForce, pushDuration, pushEase);
+
+                    //Cancel attacks
+                    _foundPawn.CancelAttacks();
                 }
             }
         }

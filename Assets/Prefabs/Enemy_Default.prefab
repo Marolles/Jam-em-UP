@@ -190,10 +190,18 @@ MonoBehaviour:
   attackLength: 4
   raycastAmount: 20
   attackSource: {fileID: 4526522650390202426}
-  pushDistance: 3
+  pushForce: 1
   pushDuration: 0.25
   pushEase: 3
-  stunDuration: 1
+  dashDistance: 1
+  dashDuration: 0.2
+  dashEase: 2
+  anticipationSlowMultiplier: 0.2
+  anticipationDuration: 1
+  anticipationPercentTrackingPlayer: 0.5
+  endOfAttackSlowMultiplier: 0.2
+  endOfAttackSlowDuration: 1
+  cooldown: 1
 --- !u!1 &4912625854137336887
 GameObject:
   m_ObjectHideFlags: 0
