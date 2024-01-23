@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class WaveManager : MonoBehaviour
 {
     [SerializeField] private Spawner[] spawners;
     [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private float delayBetweenSpawns = 5f;
-    [SerializeField] private int maxSimultaneousEnemies = 10;
+
+    [SerializeField] private AnimationCurve delayBetweenSpawnsOverTime;
+    [SerializeField] private AnimationCurve maxSimultaneousEnemiesOverTime;
 
 
     public static List<EnemyController> currentEnemies = new List<EnemyController>();
+
+    private float currentDuration;
+    private bool waveStarted = false;
 
     private void Awake()
     {
@@ -21,24 +26,30 @@ public class WaveManager : MonoBehaviour
         StartWave();
     }
 
+    private void Update()
+    {
+        if (waveStarted && !ArenaController.IsFrozen())
+            currentDuration += Time.deltaTime;
+    }
+
     public void StartWave()
     {
+        waveStarted = true;
         SpawnNextEnemy();
         Debug.Log("Wave started");
+        currentDuration = 0f;
     }
 
     private void SpawnNextEnemy()
     {
-        if (currentEnemies.Count < maxSimultaneousEnemies && !ArenaController.IsFrozen()) 
+        int _currentMaxEnemyCount = Mathf.RoundToInt(maxSimultaneousEnemiesOverTime.Evaluate(currentDuration));
+        if (currentEnemies.Count < _currentMaxEnemyCount && !ArenaController.IsFrozen()) 
         {
             Spawner _randomSpawner = GetRandomSpawner();
-            Debug.Log("Enemy count is correct, spawning new enemy");
             _randomSpawner.SpawnEnemy(enemyPrefab);
-        } else
-        {
-            Debug.Log("Too much enemies, not spawning a new ");
         }
-        Invoke("SpawnNextEnemy", delayBetweenSpawns);
+        float _currentDelayBetweenSpawns = delayBetweenSpawnsOverTime.Evaluate(currentDuration);
+        Invoke("SpawnNextEnemy", _currentDelayBetweenSpawns);
     }
 
     private Spawner GetRandomSpawner()

@@ -114,6 +114,8 @@ MonoBehaviour:
   maxHP: 1
   hpBarVerticalOffset: 2.3
   shieldPoints: 3
+  deleteAnimDuration: 0.5
+  deleteAnimEase: 9
   stunDurationWhenShieldDown: 1
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,
     type: 3}
@@ -174,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f271d04d326aa854fa652561996fb165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  armorPiecePushForce: 5
+  armorPiecePushForce: 500
   armorPieceWeight: 1
   armorPiecePushHeight: 0.3
   armorParts:

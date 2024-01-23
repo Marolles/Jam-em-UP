@@ -39,7 +39,7 @@ public class ArmorController : MonoBehaviour
             _rb.mass = armorPieceWeight;
             Vector3 _pushDirection = (_hitOrigin - _r.transform.position).normalized;
             _pushDirection.y += armorPiecePushHeight;
-            _rb.AddForce(_pushDirection * armorPiecePushForce);
+            _rb.AddForce(-_pushDirection * armorPiecePushForce);
 
             _detachedArmorPart.AddComponent<DetachedArmorPart>();
         }

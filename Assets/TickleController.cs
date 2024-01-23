@@ -104,7 +104,7 @@ public class TickleController : AttackController
         base.Update();
 
         nearestTarget = GetNearestTarget();
-        if (nearestTarget != null && nearestTarget != tickleTarget) //If has target and target isn't attacked yet, draw RIGHT CLICK over it
+        if (nearestTarget != null && nearestTarget != tickleTarget && !ArenaController.IsFrozen()) //If has target and target isn't attacked yet, draw RIGHT CLICK over it
         {
             rightClick_hint.SetActive(true);
             rightClick_hint.transform.position = Camera.main.WorldToScreenPoint(nearestTarget.transform.position + Vector3.up * 3f);

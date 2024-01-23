@@ -65,10 +65,12 @@ public class EnemyController : PawnController
             case DamageType.Attack:
                 animator.SetTrigger("DeathSwordTrigger");
                 FameController.DecreaseFameValue(FameController.instance.fameLostOnKill);
+                ScoreBoard.instance.IncreaseScore(ScoreBoard.instance.scoreOnKill);
                 break;
             case DamageType.Tickling:
                 animator.SetTrigger("DeathTickleTrigger");
                 FameController.IncreaseFameValue(FameController.instance.fameGainedOnTickle);
+                ScoreBoard.instance.IncreaseScore(ScoreBoard.instance.scoreOnTickle);
                 break;
         }
     }
