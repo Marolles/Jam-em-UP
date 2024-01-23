@@ -315,6 +315,10 @@ MonoBehaviour:
   deceleration: 7
   rotationSpeed: 5
   leftClickDurationToTriggerHeavyAttack: 0.2
+  respawnRadiusExplosion: 7
+  respawnPushForce: 5
+  respawnPushDuration: 0.2
+  respawnPushEase: 3
 --- !u!114 &2794438186323490694
 MonoBehaviour:
   m_ObjectHideFlags: 0

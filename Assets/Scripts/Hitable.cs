@@ -23,10 +23,12 @@ public class Hitable : MonoBehaviour
     private int currentShieldPoints;
 
     protected bool isDead = false;
+    private Color defaultColor;
 
 
     protected virtual void Awake()
     {
+        defaultColor = renderers[0].sharedMaterial.color;
         Regenerate();
         if (displayHPBar)
         {
@@ -123,10 +125,18 @@ public class Hitable : MonoBehaviour
             Invoke("Delete", destroyAfterDelay);
         }
     }
-    public void Regenerate()
+    public virtual void Regenerate()
     {
+        isDead = false;
         currentHP = maxHP;
         currentShieldPoints = shieldPoints;
+        CancelInvoke();
+        if (hpBar != null)
+        {
+            hpBar.UpdateBar(1f);
+        }
+        foreach (Renderer _r in renderers)
+            colorFeedbackTween = _r.material.DOColor(defaultColor, 0.1f).SetLoops(3, LoopType.Yoyo);
     }
 
     public int GetHP()

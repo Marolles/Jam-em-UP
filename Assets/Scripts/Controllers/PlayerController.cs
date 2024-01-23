@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,13 @@ public class PlayerController : PawnController
 
     [Header("Attack Settings")]
     [SerializeField] private float leftClickDurationToTriggerHeavyAttack = 0.2f;
+
+    [Header("Respawn Settings")]
+    [SerializeField] private float respawnRadiusExplosion = 10;
+    [SerializeField] private float respawnPushForce = 10;
+    [SerializeField] private float respawnPushDuration = 0.2f;
+    [SerializeField] private Ease respawnPushEase = Ease.InSine;
+
 
     private float currentSpeed = 0f;
 
@@ -120,5 +128,24 @@ public class PlayerController : PawnController
     {
         base.Damage(_damages, _type);
        // playerHitFeedback.PlayFeedback();
+    }
+
+    public override void Kill(DamageType _fatalDamageType)
+    {
+        //If the player dies, everyone is stunned on the map
+        base.Kill(_fatalDamageType);
+        ArenaController.FreezeArena();
+        _ = ArenaController.ForceLookAtKing(0.5f); //Every entity on the map will turn toward the king after this delay
+    }
+    public override void Regenerate()
+    {
+        base.Regenerate();
+        //Push entities around
+        foreach (PawnController _pc in GetPawnsInRadius(respawnRadiusExplosion))
+        {
+            Vector3 _pushDirection = _pc.transform.position - transform.position;
+            _pushDirection.Normalize();
+            _pc.Push(_pushDirection * respawnPushForce, respawnPushDuration, respawnPushEase);
+        }
     }
 }

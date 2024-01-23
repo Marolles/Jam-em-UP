@@ -29,7 +29,7 @@ public class WaveManager : MonoBehaviour
 
     private void SpawnNextEnemy()
     {
-        if (currentEnemies.Count < maxSimultaneousEnemies) 
+        if (currentEnemies.Count < maxSimultaneousEnemies && !ArenaController.IsFrozen()) 
         {
             Spawner _randomSpawner = GetRandomSpawner();
             Debug.Log("Enemy count is correct, spawning new enemy");

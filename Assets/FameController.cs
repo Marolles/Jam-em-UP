@@ -25,18 +25,6 @@ public class FameController : MonoBehaviour
         UpdateFameBar();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            IncreaseFameValue(20);
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            DecreaseFameValue(10);
-        }
-    }
-
     public static float GetFameValue()
     {
         return currentFameValue;
