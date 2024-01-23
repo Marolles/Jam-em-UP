@@ -147,8 +147,8 @@ MonoBehaviour:
   linkedPawn: {fileID: 7439291286982382719}
   cooldown: 2.5
   attackDamages: 4
-  attackRadius: 60
-  attackLength: 3
+  attackRadius: 40
+  attackLength: 2
   raycastAmount: 20
   attackSource: {fileID: 6303825478887661081}
   pushForce: 1

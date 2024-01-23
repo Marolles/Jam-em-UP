@@ -5332,6 +5332,11 @@ PrefabInstance:
       propertyPath: playerHitVignetteAnimator
       value: 
       objectReference: {fileID: 1410846464}
+    - target: {fileID: 4217958851208518853, guid: 344ba6b775c355f4eb3088eec9eba60a,
+        type: 3}
+      propertyPath: ticklingDuration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6382795134893557026, guid: 344ba6b775c355f4eb3088eec9eba60a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6220,8 +6225,8 @@ MonoBehaviour:
   - {fileID: 140753323}
   enemyPrefab: {fileID: 3157932678801722899, guid: 21c6cf3fc40e1b548a3534a0d8ee4a9b,
     type: 3}
-  delayBetweenSpawns: 5
-  maxSimultaneousEnemies: 1
+  delayBetweenSpawns: 4
+  maxSimultaneousEnemies: 5
 --- !u!4 &1977144891
 Transform:
   m_ObjectHideFlags: 0
