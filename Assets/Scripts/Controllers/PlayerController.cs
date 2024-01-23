@@ -87,6 +87,8 @@ public class PlayerController : PawnController
         _movement.x *= Mathf.Sqrt(1f - (_movement.z * _movement.z / 2f));
         _movement.z *= Mathf.Sqrt(1f - (_movement.x * _movement.x / 2f));
 
+        movementVector = _movement;
+
         if (_movement.magnitude > 0) //Handle acceleration if player is moving
         {
             currentSpeed = Mathf.Lerp(currentSpeed, moveSpeed, Time.deltaTime * acceleration);

@@ -32,7 +32,9 @@ public class DashController : AttackController
 
         linkedPawn.CancelAttacks();
         string _dashStatusID;
-        attackTweens.Add(linkedPawn.Push(linkedPawn.transform.forward * dashDistance, dashDuration, dashEase, out _dashStatusID));
+        Vector3 _movementVector = linkedPawn.GetMovementVector();
+        _movementVector.y = 0;
+        attackTweens.Add(linkedPawn.Push(_movementVector * dashDistance, dashDuration, dashEase, out _dashStatusID));
         attackStatus.Add(_dashStatusID);
 
         //Animator

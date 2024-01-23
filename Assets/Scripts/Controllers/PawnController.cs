@@ -10,6 +10,8 @@ public abstract class PawnController : Hitable
     private Dictionary<string, StatusEffect> currentStatus = new Dictionary<string, StatusEffect>();
     private Transform lockedLookedTarget; //If true, will look this target, else HandleRotation will take over
 
+    protected Vector3 movementVector;
+
     protected override void Awake()
     {
         base.Awake();
@@ -94,6 +96,11 @@ public abstract class PawnController : Hitable
     public abstract void HandleMovement();
     public abstract void HandleRotation();
     public abstract void HandleAttack();
+
+    public Vector3 GetMovementVector()
+    {
+        return movementVector;
+    }
 
     private void LookLockedTarget()
     {

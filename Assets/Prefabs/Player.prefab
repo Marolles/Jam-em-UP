@@ -148,6 +148,7 @@ MonoBehaviour:
   maxHP: 10
   hpBarVerticalOffset: 2.3
   shieldPoints: 0
+  stunDurationWhenShieldDown: 1
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,
     type: 3}
   renderers:
@@ -223,6 +224,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linkedPawn: {fileID: 7852764903341257616}
   cooldown: 1
+  rightClickHintPrefab: {fileID: 1219083294849717046, guid: 5b21bc079a614f14dbf12aa9ef29a614,
+    type: 3}
   attackRadius: 60
   attackLength: 3
   raycastAmount: 20

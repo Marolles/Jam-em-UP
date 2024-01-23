@@ -13,6 +13,8 @@ public class Hitable : MonoBehaviour
     [SerializeField] private float hpBarVerticalOffset = 3f;
     [SerializeField] private int shieldPoints = 3;
 
+    [SerializeField] private float stunDurationWhenShieldDown = 1f;
+
     [SerializeField] private GameObject hpBarPrefab;
     [SerializeField] private List<Renderer> renderers; //Temporary feedback
 
@@ -72,6 +74,14 @@ public class Hitable : MonoBehaviour
 
         currentShieldPoints--;
 
+        if (currentShieldPoints <= 0) //Shield down, stun for X seconds
+        {
+            if (TryGetComponent(out PawnController _pawnController))
+            {
+                _pawnController.SetStatus(new StatusEffect(StatusType.STUN, stunDurationWhenShieldDown, 1));
+                _pawnController.CancelAttacks();
+            }
+        }
         return true;
     }
     public virtual void Damage(int _damages, DamageType _type, Vector3 _hitOrigin)

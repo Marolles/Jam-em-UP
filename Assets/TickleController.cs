@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class TickleController : AttackController
 {
+    [SerializeField] private GameObject rightClickHintPrefab;
+
     [SerializeField] private float attackRadius;
     [SerializeField] private float attackLength;
     [SerializeField] private int raycastAmount;
@@ -18,9 +20,18 @@ public class TickleController : AttackController
     private List<string> attackStatus = new List<string>();
     private List<Tween> attackTweens = new List<Tween>();
 
+    private PawnController nearestTarget;
+
     private PawnController tickleTarget;
     private string tickleTargetStatusID;
+    private GameObject rightClick_hint;
 
+
+    private void Awake()
+    {
+        rightClick_hint = Instantiate(rightClickHintPrefab, MainCanvas.instance.transform);
+        rightClick_hint.SetActive(false);
+    }
     public override void CancelAttack()
     {
         //Animator
@@ -55,11 +66,10 @@ public class TickleController : AttackController
         attackTweens.Clear();
         attackStatus.Clear();
 
-        PawnController _foundTarget = GetNearestTarget();
-        if (_foundTarget != null)
+        if (nearestTarget != null)
         {
-            tickleTarget = _foundTarget;
-            linkedPawn.SetLockedLookedTarget(_foundTarget.transform);
+            tickleTarget = nearestTarget;
+            linkedPawn.SetLockedLookedTarget(nearestTarget.transform);
 
             //Animator
             linkedPawn.GetAnimator().SetBool("TickleBool", true);
@@ -86,6 +96,17 @@ public class TickleController : AttackController
     protected override void Update()
     {
         base.Update();
+
+        nearestTarget = GetNearestTarget();
+        if (nearestTarget != null && nearestTarget != tickleTarget) //If has target and target isn't attacked yet, draw RIGHT CLICK over it
+        {
+            rightClick_hint.SetActive(true);
+            rightClick_hint.transform.position = Camera.main.WorldToScreenPoint(nearestTarget.transform.position + Vector3.up * 3f);
+        } else
+        {
+            rightClick_hint.SetActive(false);
+        }
+
         if (tickleTarget != null) //If enemy is being tickled, check its distance
         {
             if (Vector3.Distance(tickleTarget.transform.position, linkedPawn.transform.position) > maxTicklingDistance)
