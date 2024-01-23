@@ -52,9 +52,11 @@ public class TickleController : AttackController
         }
 
         //Unstun target
-        if (tickleTarget != null && tickleTargetStatusID != null)
+        if (tickleTarget != null)
         {
-            tickleTarget.RemoveStatus(tickleTargetStatusID);
+            tickleTarget.GetAnimator().SetBool("TickledBoolean", false);
+            if (tickleTargetStatusID != null)
+                tickleTarget.RemoveStatus(tickleTargetStatusID);
         }
         tickleTarget = null;
         tickleTargetStatusID = null;
@@ -73,6 +75,7 @@ public class TickleController : AttackController
 
             //Animator
             linkedPawn.GetAnimator().SetBool("TickleBool", true);
+            tickleTarget.GetAnimator().SetBool("TickledBoolean", true);
 
             //Slow attacker
             attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, ticklingDuration, ticklingSlowMultiplier)));
@@ -89,8 +92,9 @@ public class TickleController : AttackController
 
     private void FinishTickle()
     {
-        linkedPawn.GetAnimator().SetBool("TickleBool", false);
-        tickleTarget.Damage(999, DamageType.Tickling, attackSource.position);
+        PawnController _tickleTarget = tickleTarget;
+        CancelAttack();
+        _tickleTarget.Damage(999, DamageType.Tickling, attackSource.position);
     }
 
     protected override void Update()
@@ -128,7 +132,7 @@ public class TickleController : AttackController
             Vector3 rayDirection = Quaternion.Euler(0, -attackRadius / 2 + i * _angleBetweenRays, 0) * _attackDirection;
 
             Ray ray = new Ray(attackSource.position, rayDirection);
-            Debug.DrawRay(attackSource.position, rayDirection * attackLength, Color.red, 1f);
+            //Debug.DrawRay(attackSource.position, rayDirection * attackLength, Color.red, 1f);
 
             foreach (RaycastHit _hit in Physics.RaycastAll(ray, attackLength))
             {

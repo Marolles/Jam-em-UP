@@ -60,10 +60,14 @@ public class PlayerController : PawnController
 
     public override void HandleAttack()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            leftClickDuration = 0;
+        }
         if (Input.GetMouseButton(0))
         {
             leftClickDuration += Time.deltaTime;
-            if (leftClickDuration > leftClickDurationToTriggerHeavyAttack)
+            if (leftClickDuration >= leftClickDurationToTriggerHeavyAttack)
             {
                 GetComponent<PlayerHeavyAttackController>().TryAttack();
             }
@@ -72,8 +76,6 @@ public class PlayerController : PawnController
         {
             if (leftClickDuration < leftClickDurationToTriggerHeavyAttack)
                 GetComponent<LightAttackController>().TryAttack();
-
-            leftClickDuration = 0f;
         }
         if (Input.GetMouseButtonDown(1))
         {
@@ -142,6 +144,8 @@ public class PlayerController : PawnController
 
     public override void Kill(DamageType _fatalDamageType)
     {
+        animator.SetTrigger("DeathTrigger");
+
         //If the player dies, everyone is stunned on the map
         base.Kill(_fatalDamageType);
         FameController.DecreaseFameValue(fameLostOnDeath);

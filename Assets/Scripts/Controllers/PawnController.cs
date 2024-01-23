@@ -160,7 +160,6 @@ public abstract class PawnController : Hitable
     }
     public override void Kill(DamageType _fatalDamageType)
     {
-        animator.SetTrigger("DeathTrigger");
         CancelAttacks();
         base.Kill(_fatalDamageType);
 

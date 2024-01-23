@@ -92,6 +92,7 @@ MonoBehaviour:
   angryFaces:
   - {fileID: 3151873603309344110}
   - {fileID: 3911651471638454286}
+  animator: {fileID: 3061260278978613377}
 --- !u!1001 &5524842065591228023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -183,12 +184,14 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3779336006760163951, guid: 476d8b52c13701941bb338646bf157fb,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3061260278978613377}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 476d8b52c13701941bb338646bf157fb, type: 3}
+--- !u!95 &3061260278978613377 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7410645248381798134, guid: 476d8b52c13701941bb338646bf157fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 5524842065591228023}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3151873603309344110 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7426887418283574041, guid: 476d8b52c13701941bb338646bf157fb,
@@ -237,30 +240,3 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 5524842065591228023}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8709619203985587224 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3779336006760163951, guid: 476d8b52c13701941bb338646bf157fb,
-    type: 3}
-  m_PrefabInstance: {fileID: 5524842065591228023}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &3061260278978613377
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8709619203985587224}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ec072830cf6a39145aa7e3f9ac00f355, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

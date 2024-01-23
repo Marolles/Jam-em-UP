@@ -80,6 +80,7 @@ public class Hitable : MonoBehaviour
             {
                 _pawnController.SetStatus(new StatusEffect(StatusType.STUN, stunDurationWhenShieldDown, 1));
                 _pawnController.CancelAttacks();
+                _pawnController.GetAnimator().SetTrigger("NoArmorTrigger");
             }
         }
         return true;

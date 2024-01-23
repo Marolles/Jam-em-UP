@@ -21,6 +21,8 @@ public class Spectator : MonoBehaviour
     [SerializeField] private List<GameObject> happyFaces;
     [SerializeField] private List<GameObject> angryFaces;
 
+    [SerializeField] private Animator animator;
+
     private void Awake()
     {
         CrowdManager.spectators.Add(this);
@@ -62,6 +64,7 @@ public class Spectator : MonoBehaviour
         }
         else
         {
+            animator.SetTrigger("NeutralTrigger");
             SetFace(currentStatus);
             DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
             {
@@ -77,6 +80,7 @@ public class Spectator : MonoBehaviour
     {
         if (currentStatus == SpectatorStatus.HAPPY) return;
         currentStatus = SpectatorStatus.HAPPY;
+        animator.SetTrigger("LaughingTrigger");
         SetFace(currentStatus);
         transform.DOKill(false);
         DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
@@ -92,6 +96,7 @@ public class Spectator : MonoBehaviour
     {
         if (currentStatus == SpectatorStatus.ANGRY) return;
         currentStatus = SpectatorStatus.ANGRY;
+        animator.SetTrigger("AngryTrigger");
         SetFace(currentStatus);
         transform.DOKill(false);
         DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>

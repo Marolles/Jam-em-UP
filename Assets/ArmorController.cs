@@ -34,6 +34,10 @@ public class ArmorController : MonoBehaviour
             _detachedArmorPart.AddComponent<SphereCollider>().radius = 0.4f;
             Rigidbody _rb = _detachedArmorPart.AddComponent<Rigidbody>();
 
+            _rb.detectCollisions = false; //Prevent blocking raycasts
+            _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            _detachedArmorPart.layer = LayerMask.NameToLayer("ArmorPieces");
+
             _rb.mass = armorPieceWeight;
             Vector3 _pushDirection = (_hitOrigin - _r.transform.position).normalized;
             _pushDirection.y += armorPiecePushHeight;

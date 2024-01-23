@@ -36,6 +36,9 @@ public class HeavyAttackController : AttackController
     private List<Tween> attackTweens = new List<Tween>(); //Same for tweens
     protected override void StartAttack()
     {
+        //Animator
+        linkedPawn.GetAnimator().SetTrigger("HeavyAttackTrigger");
+
         //Reset values
         attackTweens.Clear();
         attackStatus.Clear();

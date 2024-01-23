@@ -59,9 +59,11 @@ public class EnemyController : PawnController
         switch (_fatalDamageType)
         {
             case DamageType.Attack:
+                animator.SetTrigger("DeathSwordTrigger");
                 FameController.DecreaseFameValue(FameController.instance.fameLostOnKill);
                 break;
             case DamageType.Tickling:
+                animator.SetTrigger("DeathTickleTrigger");
                 FameController.IncreaseFameValue(FameController.instance.fameGainedOnTickle);
                 break;
         }
