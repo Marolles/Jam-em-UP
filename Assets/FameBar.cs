@@ -23,8 +23,6 @@ public class FameBar : MonoBehaviour
     {
         if (instance != null) { Destroy(instance); }
         instance = this;
-
-        ResetBar();
     }
 
     public static void ResetBar()

@@ -6,11 +6,12 @@ public class FameController : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float maxFameValue = 100f;
+    [SerializeField] private float defaultFameValue = 50f;
 
     public float fameGainedOnTickle = 10f;
     public float fameLostOnKill = 5f;
 
-    private static float currentFameValue = 0;
+    private static float currentFameValue;
 
     public static FameController instance;
 
@@ -20,24 +21,50 @@ public class FameController : MonoBehaviour
         if (instance != null) { Destroy(instance); }
         instance = this;
 
-        currentFameValue = 0;
+        currentFameValue = defaultFameValue;
+        UpdateFameBar();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            IncreaseFameValue(20);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            DecreaseFameValue(10);
+        }
+    }
+
+    public static float GetFameValue()
+    {
+        return currentFameValue;
+    }
+
+    public static float GetFameValueNormalized()
+    {
+        return currentFameValue / instance.maxFameValue;
     }
 
     public static void IncreaseFameValue(float _amount)
     {
         currentFameValue = Mathf.Clamp(currentFameValue + _amount, 0, instance.maxFameValue);
         UpdateFameBar();
+        CrowdManager.instance.UpdateCrowdColor();
     }
 
     public static void DecreaseFameValue(float _amount)
     {
         currentFameValue = Mathf.Clamp(currentFameValue - _amount, 0, instance.maxFameValue);
         UpdateFameBar();
+        CrowdManager.instance.UpdateCrowdColor();
     }
     public static void ResetFameValue()
     {
         currentFameValue = 0;
         UpdateFameBar();
+        CrowdManager.instance.UpdateCrowdColor();
     }
 
     public static void UpdateFameBar()
