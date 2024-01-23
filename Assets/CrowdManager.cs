@@ -24,7 +24,7 @@ public class CrowdManager : MonoBehaviour
 
     private void ShuffleSpectatorList()
     {
-        Debug.Log("Spectator amount: " + spectators.Count);
+        Debug.Log("Shuffling spectator list: " + spectators.Count);
         spectators = spectators.OrderBy(i => Guid.NewGuid()).ToList();
     }
 
