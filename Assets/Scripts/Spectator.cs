@@ -105,7 +105,6 @@ public class Spectator : MonoBehaviour
 
     public void SetFace(SpectatorStatus _status)
     {
-        Debug.Log("Setting faces: " + _status);
         foreach (GameObject _g in happyFaces)
             _g.SetActive(false);
         foreach (GameObject _g in angryFaces)

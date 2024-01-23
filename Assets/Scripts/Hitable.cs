@@ -27,7 +27,8 @@ public class Hitable : MonoBehaviour
 
     protected virtual void Awake()
     {
-        Regenerate();
+        currentHP = maxHP;
+        currentShieldPoints = shieldPoints;
         if (displayHPBar)
         {
             Canvas _mainCanvas = MainCanvas.GetCanvas();

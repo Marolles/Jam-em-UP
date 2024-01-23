@@ -6413,7 +6413,7 @@ GameObject:
   - component: {fileID: 2017853687}
   - component: {fileID: 2017853686}
   - component: {fileID: 2017853685}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

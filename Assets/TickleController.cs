@@ -23,6 +23,8 @@ public class TickleController : AttackController
 
     public override void CancelAttack()
     {
+        //Animator
+        linkedPawn.GetAnimator().SetBool("TickleBool", false);
         linkedPawn.RemoveLockedLookedTarget();
         CancelInvoke();
 
@@ -59,6 +61,9 @@ public class TickleController : AttackController
             tickleTarget = _foundTarget;
             linkedPawn.SetLockedLookedTarget(_foundTarget.transform);
 
+            //Animator
+            linkedPawn.GetAnimator().SetBool("TickleBool", true);
+
             //Slow attacker
             attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, ticklingDuration, ticklingSlowMultiplier)));
 
@@ -74,6 +79,7 @@ public class TickleController : AttackController
 
     private void FinishTickle()
     {
+        linkedPawn.GetAnimator().SetBool("TickleBool", false);
         tickleTarget.Damage(999, DamageType.Tickling, attackSource.position);
     }
 

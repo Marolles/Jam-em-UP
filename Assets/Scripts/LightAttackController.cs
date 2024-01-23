@@ -40,6 +40,9 @@ public class LightAttackController : AttackController
         //Start anticipation
         attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, anticipationSlowDuration, anticipationSlowMultiplier)));
         Invoke("StartDash", anticipationSlowDuration);
+
+        //Animator
+        linkedPawn.GetAnimator().SetTrigger("LightAttackTrigger");
     }
 
     public void StartDash()
