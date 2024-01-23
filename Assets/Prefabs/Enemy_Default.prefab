@@ -114,6 +114,7 @@ MonoBehaviour:
   maxHP: 1
   hpBarVerticalOffset: 2.3
   shieldPoints: 3
+  stunDurationWhenShieldDown: 1
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,
     type: 3}
   renderers:
@@ -127,7 +128,7 @@ MonoBehaviour:
   - {fileID: 8339624994824494264}
   - {fileID: 8615461183972366866}
   - {fileID: 2249193071445985336}
-  animator: {fileID: 0}
+  animator: {fileID: 5233981374145529120}
   moveSpeed: 3
   rotationSpeed: 5
   distanceToAttack: 3
@@ -361,7 +362,7 @@ PrefabInstance:
     - target: {fileID: 6426454407059581270, guid: 3a6563ea77e3d0c4fbd207b26bc0530d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8796139817979501653, guid: 3a6563ea77e3d0c4fbd207b26bc0530d,
         type: 3}
