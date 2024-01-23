@@ -41,7 +41,7 @@ public class FameBar : MonoBehaviour
         if (instance.positiveTweenLerp != null) instance.positiveTweenLerp.Kill();
 
         instance.fillBar.fillAmount = _value;
-        instance.fillBar.color = _value < 0.5f ? instance.fillNegativeColor : instance.fillPositiveColor;
+        instance.fillLerpedBarPositive.color = _value < 0.5f ? instance.fillNegativeColor : instance.fillPositiveColor;
         if (_value > currentFillValue)
         {            
             //Increase in fame

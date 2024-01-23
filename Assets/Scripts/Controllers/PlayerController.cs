@@ -48,16 +48,6 @@ public class PlayerController : PawnController
         groundPlane = new Plane(Vector3.up, Vector3.zero);//Generate a virtual plane at Y = 0 to check for mouse raycasts
     }
 
-    protected override void Update() //ONLY FOR DEBUG INPUTS, SHOULD BE REMOVED BEFORE RELEASE
-    {
-        base.Update();
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            CancelAttacks();
-        }
-    }
-
     public override void HandleAttack()
     {
         if (Input.GetMouseButton(0))
@@ -82,6 +72,10 @@ public class PlayerController : PawnController
         if (Input.GetMouseButtonUp(1))
         {
             GetComponent<TickleController>().CancelAttack();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetComponent<DashController>().TryAttack();
         }
     }
 
@@ -109,6 +103,10 @@ public class PlayerController : PawnController
         Vector3 _newPosition = MapManager.ClampPositionInRadius(transform.position + _deltaMovement);
         if (charController.enabled)
             charController.Move(_newPosition - transform.position);
+
+        //Update animator
+        float _finalMovementSpeed = (currentSpeed * GetSpeedMultiplier()) * _movement.magnitude;
+        animator.SetFloat("Blend", _finalMovementSpeed / moveSpeed);
     }
 
     public override void HandleRotation()
@@ -145,6 +143,10 @@ public class PlayerController : PawnController
     public override void Regenerate()
     {
         base.Regenerate();
+
+        //Animator
+        animator.SetTrigger("RegenerateTrigger");
+
         //Push entities around
         foreach (PawnController _pc in GetPawnsInRadius(respawnRadiusExplosion))
         {

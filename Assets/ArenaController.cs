@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using Cinemachine;
 
 public class ArenaController : MonoBehaviour
 {
     public static ArenaController instance;
 
     private static bool frozen = false;
+
+    [SerializeField] private CinemachineVirtualCamera kingCamera;
 
     [SerializeField] private Transform king;
     [SerializeField] private float turnDuration = 1f;
@@ -67,6 +70,7 @@ public class ArenaController : MonoBehaviour
         }
 
         //Camera travel HERE <=======================
+        kingCamera.m_Priority = 11;
 
         Invoke("KingJudgement", turnDuration + 1f);
     }
@@ -87,6 +91,7 @@ public class ArenaController : MonoBehaviour
     private void KillPlayer()
     {
         //Put back camera HERE <======
+        kingCamera.m_Priority = 9;
 
         //Death anim for player
 
@@ -101,6 +106,9 @@ public class ArenaController : MonoBehaviour
     private void ShowMercy()
     {
         //Put back camera HERE <======
+        kingCamera.m_Priority = 9;
+
+        UnfreezeArena();
 
         PlayerController.instance.Regenerate();
     }
