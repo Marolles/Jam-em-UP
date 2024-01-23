@@ -50,10 +50,20 @@ public class EnemyController : PawnController
         }
     }
 
-    public override void Kill()
+    public override void Kill(DamageType _fatalDamageType)
     {
-        base.Kill();
+        base.Kill(_fatalDamageType);
         if (WaveManager.currentEnemies.Contains(this))
             WaveManager.currentEnemies.Remove(this); //Unregister the enemy from the wave manager since it is dead
+
+        switch (_fatalDamageType)
+        {
+            case DamageType.Attack:
+                FameController.DecreaseFameValue(FameController.instance.fameLostOnKill);
+                break;
+            case DamageType.Tickling:
+                FameController.IncreaseFameValue(FameController.instance.fameGainedOnTickle);
+                break;
+        }
     }
 }

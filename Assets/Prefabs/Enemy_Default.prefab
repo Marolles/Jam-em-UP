@@ -161,7 +161,7 @@ MonoBehaviour:
   destroyAfterDelay: 5
   displayHPBar: 0
   hideHPBarWhenDead: 0
-  maxHP: 4
+  maxHP: 1
   hpBarVerticalOffset: 2.3
   shieldPoints: 3
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,

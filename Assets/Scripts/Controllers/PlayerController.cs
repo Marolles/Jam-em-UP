@@ -18,10 +18,15 @@ public class PlayerController : PawnController
 
     [SerializeField] private float rotationSpeed = 5f;
 
+    [Header("Attack Settings")]
+    [SerializeField] private float leftClickDurationToTriggerHeavyAttack = 0.2f;
+
     private float currentSpeed = 0f;
 
     private Plane groundPlane;
     private Vector3 wantedLookedPos;
+
+    private float leftClickDuration = 0f;
 
     protected override void Awake()
     {
@@ -44,13 +49,28 @@ public class PlayerController : PawnController
 
     public override void HandleAttack()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
-            GetComponent<LightAttackController>().TryAttack();
+            leftClickDuration += Time.deltaTime;
+            if (leftClickDuration > leftClickDurationToTriggerHeavyAttack)
+            {
+                GetComponent<PlayerHeavyAttackController>().TryAttack();
+            }
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (leftClickDuration < leftClickDurationToTriggerHeavyAttack)
+                GetComponent<LightAttackController>().TryAttack();
+
+            leftClickDuration = 0f;
         }
         if (Input.GetMouseButtonDown(1))
         {
             GetComponent<TickleController>().TryAttack();
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            GetComponent<TickleController>().CancelAttack();
         }
     }
 
@@ -96,9 +116,9 @@ public class PlayerController : PawnController
         transform.forward = Vector3.Lerp(transform.forward, _newDirection, Time.deltaTime * rotationSpeed);
     }
 
-    public override void Damage(int _damages)
+    public override void Damage(int _damages, DamageType _type)
     {
-        base.Damage(_damages);
+        base.Damage(_damages, _type);
        // playerHitFeedback.PlayFeedback();
     }
 }

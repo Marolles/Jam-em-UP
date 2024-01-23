@@ -1,8 +1,11 @@
 using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class LightAttackController : AttackController
+public class PlayerHeavyAttackController : AttackController
 {
     [Header("Settings")]
     [SerializeField] private int attackDamages = 10;
@@ -10,6 +13,7 @@ public class LightAttackController : AttackController
     [SerializeField] private float attackLength;
     [SerializeField] private int raycastAmount;
     [SerializeField] private Transform attackSource;
+
     [SerializeField] private float pushForce = 1f;
     [SerializeField] private float pushDuration = 0.2f;
     [SerializeField] private Ease pushEase = Ease.OutSine;
@@ -17,9 +21,6 @@ public class LightAttackController : AttackController
     [SerializeField] private float dashDistance = 1f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private Ease dashEase;
-
-    [SerializeField] private float anticipationSlowMultiplier = 0.2f;
-    [SerializeField] private float anticipationSlowDuration = 1f;
 
     [SerializeField] private float endOfAttackSlowMultiplier = 0.2f;
     [SerializeField] private float endOfAttackSlowDuration = 1f;
@@ -37,9 +38,8 @@ public class LightAttackController : AttackController
         attackStatus.Clear();
         recentlyHitPawns.Clear(); //Clear recently hit pawns before starting new attack
 
-        //Start anticipation
-        attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, anticipationSlowDuration, anticipationSlowMultiplier)));
-        Invoke("StartDash", anticipationSlowDuration);
+        //Start attack
+        StartDash();
     }
 
     public void StartDash()
@@ -56,7 +56,7 @@ public class LightAttackController : AttackController
         CancelInvoke();
         foreach (Tween _tween in attackTweens)
         {
-            _tween?.Kill(false);
+            if (_tween != null) _tween.Kill(false);
         }
         foreach (string _statusID in attackStatus)
         {
@@ -70,7 +70,6 @@ public class LightAttackController : AttackController
         attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, endOfAttackSlowDuration, endOfAttackSlowMultiplier)));
         attacking = false;
     }
-
     protected override void Update()
     {
         base.Update();
@@ -107,10 +106,14 @@ public class LightAttackController : AttackController
                 PawnController _foundPawn = _hitable.GetComponent<PawnController>();
                 if (_foundPawn != null)
                 {
-                    Vector3 _pushDirection = _foundPawn.transform.position - transform.position;
+                    Vector3 _pushDirection = attackSource.forward;
                     _pushDirection.y = 0;
                     _pushDirection.Normalize();
                     _foundPawn.Push(_pushDirection * pushForce, pushDuration, pushEase);
+                    _foundPawn.SetStatus(new StatusEffect(StatusType.IS_BOWLING_BALL, pushDuration, 1)); //IS BOWLING BALL means the target will stun its allies nearby
+
+                    //Cancel attacks ?
+                    _foundPawn.CancelAttacks();
                 }
             }
         }

@@ -55,7 +55,7 @@ public class Hitable : MonoBehaviour
 
     private bool TankHitWithShield()
     {
-        if (shieldPoints <= 0) return false;
+        if (currentShieldPoints <= 0) return false;
 
         //Shield hit feedback HERE
         colorFeedbackTween.Kill(true);
@@ -66,11 +66,11 @@ public class Hitable : MonoBehaviour
         _shieldFXPrefab.transform.SetParent(transform);
         _shieldFXPrefab.transform.position = transform.position + Vector3.up;
 
-        shieldPoints--;
+        currentShieldPoints--;
 
         return true;
     }
-    public virtual void Damage(int _damages)
+    public virtual void Damage(int _damages, DamageType _type)
     {
         if (isDead) return;
 
@@ -78,7 +78,7 @@ public class Hitable : MonoBehaviour
 
         currentHP = Mathf.Clamp(currentHP - _damages, 0, maxHP);
 
-        if (currentHP <= 0) { Kill(); return; }
+        if (currentHP <= 0) { Kill(_type); return; }
 
         //Damage feedback
         colorFeedbackTween.Kill(true);
@@ -96,7 +96,12 @@ public class Hitable : MonoBehaviour
         return false;
     }
 
-    public virtual void Kill()
+    public bool IsDead()
+    {
+        return isDead;
+    }
+
+    public virtual void Kill(DamageType _fatalDamageType)
     {
         isDead = true;
 

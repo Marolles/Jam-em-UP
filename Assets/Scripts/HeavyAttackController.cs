@@ -43,21 +43,18 @@ public class HeavyAttackController : AttackController
 
         //Start anticipation
         float _anticipationFirstPartDuration = anticipationDuration * anticipationPercentTrackingPlayer;
-        Debug.Log("Slowing");
         attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.SPEED_MULTIPLIER, _anticipationFirstPartDuration, anticipationSlowMultiplier)));
         Invoke("AnticipationSecondPart", _anticipationFirstPartDuration);
     }
 
     private void AnticipationSecondPart()
     {
-        Debug.Log("Stun");
         float _anticipationSecondPartDuration = anticipationDuration * (1f - anticipationPercentTrackingPlayer);
         attackStatus.Add(linkedPawn.SetStatus(new StatusEffect(StatusType.STUN, _anticipationSecondPartDuration + 0.1f, 1)));
         Invoke("StartDash", _anticipationSecondPartDuration);
     }
     public void StartDash()
     {
-        Debug.Log("Stun");
         attacking = true;
         string _dashStatusID;
         attackTweens.Add(linkedPawn.Push(linkedPawn.transform.forward * dashDistance, dashDuration, dashEase, out _dashStatusID));
@@ -116,7 +113,7 @@ public class HeavyAttackController : AttackController
             //Apply damages and push found targets
             foreach (Hitable _hitable in _foundHitables)
             {
-                _hitable.Damage(attackDamages);
+                _hitable.Damage(attackDamages, DamageType.Attack);
                 PawnController _foundPawn = _hitable.GetComponent<PawnController>();
                 if (_foundPawn != null)
                 {

@@ -7,6 +7,7 @@ public abstract class PawnController : Hitable
 {
     protected CharacterController charController;
     private Dictionary<string, StatusEffect> currentStatus = new Dictionary<string, StatusEffect>();
+    private Transform lockedLookedTarget; //If true, will look this target, else HandleRotation will take over
 
     protected override void Awake()
     {
@@ -22,7 +23,13 @@ public abstract class PawnController : Hitable
         if (!isDead && !IsStunned())
         {
             HandleMovement();
-            HandleRotation();
+            if (!lockedLookedTarget)
+            {
+                HandleRotation();
+            } else
+            {
+                LookLockedTarget();
+            }
             HandleAttack();
         }
     }
@@ -82,6 +89,12 @@ public abstract class PawnController : Hitable
     public abstract void HandleRotation();
     public abstract void HandleAttack();
 
+    private void LookLockedTarget()
+    {
+        Vector3 _lookPos = lockedLookedTarget.position - transform.position;
+        _lookPos.y = 0;
+        transform.forward = _lookPos;
+    }
     public float GetSpeedMultiplier()
     {
         float _multiplier = 1f;
@@ -90,6 +103,16 @@ public abstract class PawnController : Hitable
             _multiplier *= _se.intensity;
         }
         return _multiplier;
+    }
+
+    public void SetLockedLookedTarget(Transform _transform)
+    {
+        lockedLookedTarget = _transform;
+    }
+
+    public void RemoveLockedLookedTarget()
+    {
+        lockedLookedTarget = null;
     }
 
     public bool IsStunned()
@@ -108,5 +131,11 @@ public abstract class PawnController : Hitable
     {
         _statusID = SetStatus(new StatusEffect(StatusType.STUN, _pushDuration, 1f));
         return transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
+    }
+
+    public override void Kill(DamageType _fatalDamageType)
+    {
+        CancelAttacks();
+        base.Kill(_fatalDamageType);
     }
 }
