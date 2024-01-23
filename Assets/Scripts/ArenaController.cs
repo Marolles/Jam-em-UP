@@ -114,6 +114,11 @@ public class ArenaController : MonoBehaviour
         //Put back camera HERE <======
         kingCamera.m_Priority = 9;
 
+        Invoke("FreePlayer", 1f);
+    }
+
+    private void FreePlayer()
+    {
         UnfreezeArena();
 
         PlayerController.instance.Regenerate();
