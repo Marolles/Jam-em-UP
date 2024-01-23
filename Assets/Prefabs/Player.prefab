@@ -195,7 +195,7 @@ MonoBehaviour:
   dashEase: 2
   anticipationSlowMultiplier: 1
   anticipationSlowDuration: 0
-  endOfAttackSlowMultiplier: 0.1
+  endOfAttackSlowMultiplier: 0.2
   endOfAttackSlowDuration: 0.15
 --- !u!114 &2992018603172923930
 MonoBehaviour:
@@ -230,7 +230,7 @@ MonoBehaviour:
   attackLength: 3
   raycastAmount: 20
   attackSource: {fileID: 8528390838461710169}
-  ticklingDuration: 2
+  ticklingDuration: 1.3
   ticklingSlowMultiplier: 0.1
   maxTicklingDistance: 4
 --- !u!114 &6092209281374747861
