@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class PawnController : Hitable
 {
+    [SerializeField] protected Animator animator;
     protected CharacterController charController;
     private Dictionary<string, StatusEffect> currentStatus = new Dictionary<string, StatusEffect>();
     private Transform lockedLookedTarget; //If true, will look this target, else HandleRotation will take over
@@ -138,8 +139,21 @@ public abstract class PawnController : Hitable
         return transform.DOMove(transform.position + _direction, _pushDuration).SetEase(_ease);
     }
 
+    public override void Damage(int _damages, DamageType _type, Vector3 _hitOrigin)
+    {
+        //Animator
+        animator.SetTrigger("HitTrigger");
+        
+        base.Damage(_damages, _type, _hitOrigin);
+    }
+
+    public Animator GetAnimator()
+    {
+        return animator;
+    }
     public override void Kill(DamageType _fatalDamageType)
     {
+        animator.SetTrigger("DeathTrigger");
         CancelAttacks();
         base.Kill(_fatalDamageType);
 
