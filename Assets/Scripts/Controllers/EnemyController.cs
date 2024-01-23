@@ -52,6 +52,10 @@ public class EnemyController : PawnController
 
     public override void Kill(DamageType _fatalDamageType)
     {
+        animator.ResetTrigger("HeavyAttackTrigger");
+        animator.ResetTrigger("NoArmorTrigger");
+        animator.ResetTrigger("HitTrigger");
+
         base.Kill(_fatalDamageType);
         if (WaveManager.currentEnemies.Contains(this))
             WaveManager.currentEnemies.Remove(this); //Unregister the enemy from the wave manager since it is dead

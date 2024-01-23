@@ -26,13 +26,15 @@ public class FameBar : MonoBehaviour
     {
         if (instance != null) { Destroy(instance); }
         instance = this;
+
+        ResetBar();
     }
 
     public static void ResetBar()
     {
-        instance.fillBar.fillAmount = 0;
-        instance.fillLerpedBarNegative.fillAmount = 0;
-        instance.fillLerpedBarPositive.fillAmount = 0;
+        instance.fillBar.fillAmount = 0.5f;
+        instance.fillLerpedBarNegative.fillAmount = 0.5f;
+        instance.fillLerpedBarPositive.fillAmount = 0.5f;
     }
 
     public static void SetNormalizedValue(float _value)

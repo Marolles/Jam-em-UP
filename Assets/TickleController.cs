@@ -64,6 +64,8 @@ public class TickleController : AttackController
 
     protected override void StartAttack()
     {
+        if (tickleTarget != null) return;
+
         //Reset values
         attackTweens.Clear();
         attackStatus.Clear();
