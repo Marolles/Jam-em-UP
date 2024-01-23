@@ -133,6 +133,8 @@ MonoBehaviour:
   fillLerpDuration: 1
   fillLerpPositiveEase: 3
   fillLerpNegativeEase: 2
+  fillPositiveColor: {r: 0.27171594, g: 0.8113208, b: 0.34624702, a: 1}
+  fillNegativeColor: {r: 0.83137256, g: 0.4100181, b: 0.19215682, a: 1}
 --- !u!1 &854908465896256189
 GameObject:
   m_ObjectHideFlags: 0

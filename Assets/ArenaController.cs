@@ -68,7 +68,7 @@ public class ArenaController : MonoBehaviour
             if (_controller != null)
             {
                 Vector3 _toward = instance.king.transform.position - _controller.transform.position;
-                _controller.transform.DOLookAt(_toward, instance.turnDuration, AxisConstraint.Y).SetEase(instance.turnEase);
+                DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () => _controller.transform.DOLookAt(_toward, instance.turnDuration, AxisConstraint.Y).SetEase(instance.turnEase));
             }
         }
 
@@ -76,7 +76,8 @@ public class ArenaController : MonoBehaviour
         foreach (Spectator _spectator in CrowdManager.spectators)
         {
             Vector3 _toward = instance.king.transform.position - _spectator.transform.position;
-            _spectator.transform.DOLookAt(_toward, instance.turnDuration, AxisConstraint.Y).SetEase(instance.turnEase);
+            DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () => _spectator.transform.DOLookAt(_toward, instance.turnDuration, AxisConstraint.Y).SetEase(instance.turnEase));
+            //_spectator.transform.DOLookAt(_toward, instance.turnDuration, AxisConstraint.Y).SetEase(instance.turnEase);
         }
 
         //Camera travel HERE <=======================
