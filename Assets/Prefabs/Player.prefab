@@ -317,7 +317,7 @@ MonoBehaviour:
   leftClickDurationToTriggerHeavyAttack: 0.2
   respawnRadiusExplosion: 7
   respawnPushForce: 5
-  respawnPushDuration: 0.2
+  respawnPushDuration: 0.5
   respawnPushEase: 3
 --- !u!114 &2794438186323490694
 MonoBehaviour:

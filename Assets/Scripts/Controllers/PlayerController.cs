@@ -28,6 +28,9 @@ public class PlayerController : PawnController
     [SerializeField] private float respawnPushDuration = 0.2f;
     [SerializeField] private Ease respawnPushEase = Ease.InSine;
 
+    [Header("Fame Settings")]
+    [SerializeField] private int fameLostOnDeath = 30;
+
 
     private float currentSpeed = 0f;
 
@@ -134,8 +137,9 @@ public class PlayerController : PawnController
     {
         //If the player dies, everyone is stunned on the map
         base.Kill(_fatalDamageType);
+        FameController.DecreaseFameValue(fameLostOnDeath);
         ArenaController.FreezeArena();
-        _ = ArenaController.ForceLookAtKing(0.5f); //Every entity on the map will turn toward the king after this delay
+        ArenaController.instance.AskKingForMercy();
     }
     public override void Regenerate()
     {

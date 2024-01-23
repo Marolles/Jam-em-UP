@@ -13,6 +13,9 @@ public class FameBar : MonoBehaviour
     [SerializeField] private Ease fillLerpPositiveEase = Ease.InSine;
     [SerializeField] private Ease fillLerpNegativeEase = Ease.OutSine;
 
+    [SerializeField] private Color fillPositiveColor;
+    [SerializeField] private Color fillNegativeColor;
+
     public static FameBar instance;
     private static float currentFillValue;
 
@@ -38,6 +41,7 @@ public class FameBar : MonoBehaviour
         if (instance.positiveTweenLerp != null) instance.positiveTweenLerp.Kill();
 
         instance.fillBar.fillAmount = _value;
+        instance.fillBar.color = _value < 0.5f ? instance.fillNegativeColor : instance.fillPositiveColor;
         if (_value > currentFillValue)
         {            
             //Increase in fame
