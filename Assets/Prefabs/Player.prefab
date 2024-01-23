@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linkedPawn: {fileID: 7852764903341257616}
   cooldown: 1
-  rightClickHintPrefab: {fileID: 1219083294849717046, guid: 5b21bc079a614f14dbf12aa9ef29a614,
+  rightClickHintPrefab: {fileID: 7613683910777044847, guid: 164806b5074c41242a2d546995368e1a,
     type: 3}
   attackRadius: 60
   attackLength: 3
