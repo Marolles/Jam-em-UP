@@ -12831,6 +12831,51 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6132995641557320966, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132995641557320966, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132995641557320966, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132995641557320966, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255666520560925992, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.23584908
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255666520560925992, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.15241191
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255666520560925992, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.16913188
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255666520560925992, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4282132267
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557311135168017171, guid: 28bbaf9273cf99048aef4de3735fc7df,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15998,7 +16043,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 18.250147, y: 18.250147, z: 18.250147}
+  m_LocalScale: {x: 4.826054, y: 4.826054, z: 4.826054}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
