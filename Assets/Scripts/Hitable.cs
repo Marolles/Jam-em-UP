@@ -40,6 +40,7 @@ public class Hitable : MonoBehaviour
             if (_mainCanvas != null)
             {
                 GameObject _hpBarObj = Instantiate(hpBarPrefab, _mainCanvas.transform);
+                _hpBarObj.transform.SetAsFirstSibling();
                 hpBar = _hpBarObj.GetComponent<HPBar>();
                 if (hpBar == null) { Debug.LogError("No HP bar script attached on hpbar prefab"); }
             }
