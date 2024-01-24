@@ -7,7 +7,6 @@ public class PauseMenu : MonoBehaviour
 {
     private static PauseMenu instance;
     [SerializeField] private Transform panel;
-    [SerializeField] private Animator animator;
 
     private bool opened = false;
 
@@ -35,7 +34,6 @@ public class PauseMenu : MonoBehaviour
     {
         instance.panel.gameObject.SetActive(true);
         instance.opened = true;
-        instance.animator.SetTrigger("PauseOn");
         Time.timeScale = 0f;
     }
 
@@ -43,7 +41,6 @@ public class PauseMenu : MonoBehaviour
     {
         instance.panel.gameObject.SetActive(false);
         instance.opened = false;
-        instance.animator.SetTrigger("PauseOff");
         Time.timeScale = 1f;
     }
 
