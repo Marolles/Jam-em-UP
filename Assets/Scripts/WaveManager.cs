@@ -56,4 +56,12 @@ public class WaveManager : MonoBehaviour
     {
         return (spawners[Random.Range(0, spawners.Length - 1)]);
     }
+
+    public static void DeleteAllEnemies()
+    {
+        foreach (EnemyController _ec in currentEnemies)
+        {
+            _ec.Delete();
+        }
+    }
 }

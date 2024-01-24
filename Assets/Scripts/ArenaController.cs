@@ -67,10 +67,8 @@ public class ArenaController : MonoBehaviour
         {
             Vector3 _toward = instance.king.transform.position - _spectator.transform.position;
             DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () => _spectator.transform.DOLookAt(_toward, instance.turnDuration, AxisConstraint.Y).SetEase(instance.turnEase));
-            //_spectator.transform.DOLookAt(_toward, instance.turnDuration, AxisConstraint.Y).SetEase(instance.turnEase);
         }
 
-        //Camera travel HERE <=======================
         kingCamera.m_Priority = 11;
 
         Invoke("KingJudgement", turnDuration + 1f);
@@ -81,7 +79,7 @@ public class ArenaController : MonoBehaviour
     private void KingJudgement()
     {
         //Show either a THUMBS UP or THUMBS DOWN
-        if (FameController.GetFameValue() > requiredFameForMercy)
+        if (FameController.GetFameValue() >= requiredFameForMercy)
         {
             Invoke("ShowMercy", 3.5f);
             kingAnim.SetTrigger("ThumbUpTrigger");
@@ -96,7 +94,10 @@ public class ArenaController : MonoBehaviour
 
     private void KillPlayer()
     {
-        //Put back camera HERE <======
+       // WaveManager.DeleteAllEnemies();
+
+        PlayerController.instance.DeleteHPBar();
+
         kingCamera.m_Priority = 9;
 
         //Death anim for player
@@ -111,7 +112,6 @@ public class ArenaController : MonoBehaviour
 
     private void ShowMercy()
     {
-        //Put back camera HERE <======
         kingCamera.m_Priority = 9;
 
         Invoke("FreePlayer", 1f);

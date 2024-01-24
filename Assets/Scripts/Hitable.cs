@@ -171,9 +171,14 @@ public class Hitable : MonoBehaviour
 
     public virtual void Delete()
     {
-        if (hpBar != null) { Destroy(hpBar.gameObject); }
+        DeleteHPBar();
         transform.DOScale(0, deleteAnimDuration).SetEase(deleteAnimEase);
         Invoke("DeleteEnd", deleteAnimDuration);
+    }
+
+    public void DeleteHPBar()
+    {
+        if (hpBar != null) { Destroy(hpBar.gameObject); }
     }
 
     private void DeleteEnd()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FameController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class FameController : MonoBehaviour
 
     private static float currentFameValue;
 
+    public UnityEvent<float, float> onFameChange = new UnityEvent<float, float>();
+
     public static FameController instance;
 
     private void Awake()
@@ -23,18 +26,6 @@ public class FameController : MonoBehaviour
 
         currentFameValue = defaultFameValue;
         UpdateFameBar();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            IncreaseFameValue(10f);
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            DecreaseFameValue(10);
-        }
     }
 
     public static float GetFameValue()
@@ -60,6 +51,7 @@ public class FameController : MonoBehaviour
     public static void IncreaseFameValue(float _amount)
     {
         currentFameValue = Mathf.Clamp(currentFameValue + _amount, 0, instance.maxFameValue);
+        instance.onFameChange.Invoke((_amount / instance.maxFameValue), GetFameValueNormalized());
         UpdateFameBar();
         CrowdManager.instance.UpdateCrowdColor();
     }
@@ -67,12 +59,14 @@ public class FameController : MonoBehaviour
     public static void DecreaseFameValue(float _amount)
     {
         currentFameValue = Mathf.Clamp(currentFameValue - _amount, 0, instance.maxFameValue);
+        instance.onFameChange.Invoke((-_amount / instance.maxFameValue), GetFameValueNormalized());
         UpdateFameBar();
         CrowdManager.instance.UpdateCrowdColor();
     }
     public static void ResetFameValue()
     {
         currentFameValue = 0;
+        instance.onFameChange.Invoke(0, 0);
         UpdateFameBar();
         CrowdManager.instance.UpdateCrowdColor();
     }

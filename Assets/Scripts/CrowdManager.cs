@@ -41,6 +41,19 @@ public class CrowdManager : MonoBehaviour
         return _angrySpectators;
     }
 
+    public List<Spectator> GetHappySpectators()
+    {
+        List<Spectator> _happySpectators = new List<Spectator>();
+        foreach (Spectator _spectator in spectators)
+        {
+            if (_spectator.GetStatus() == Spectator.SpectatorStatus.HAPPY)
+            {
+                _happySpectators.Add(_spectator);
+            }
+        }
+        return _happySpectators;
+    }
+
     public void UpdateCrowdColor() //Must be called EVERY TIME the fame gets updated
     {
         float _fameValue = FameController.GetFameValueNormalized();
