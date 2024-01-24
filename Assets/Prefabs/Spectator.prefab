@@ -81,9 +81,12 @@ MonoBehaviour:
   - {fileID: 5295112355033360922}
   - {fileID: 6747665255777015622}
   - {fileID: 3200380930068719752}
-  defaultColor: {r: 0.18867922, g: 0.18778922, b: 0.18778922, a: 1}
+  defaultColor: {r: 0.3433962, g: 0.3433962, b: 0.3433962, a: 1}
+  defaultColor2: {r: 0.4415095, g: 0.3923603, b: 0.3923603, a: 1}
   happyColor: {r: 0.24259305, g: 0.7735849, b: 0.14960839, a: 1}
-  angryColor: {r: 0.8773585, g: 0.09518514, b: 0.09518514, a: 1}
+  happyColor2: {r: 0.5117784, g: 0.6528301, b: 0.40278387, a: 1}
+  angryColor: {r: 0.8037735, g: 0.16227125, b: 0.16227125, a: 1}
+  angryColor2: {r: 0.7509433, g: 0.19694544, b: 0.34624565, a: 1}
   colorChangeDuration: 0.5
   colorChangeEase: 29
   happyFaces:

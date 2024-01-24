@@ -10,8 +10,13 @@ public class Spectator : MonoBehaviour
     [SerializeField] private Renderer[] renderers;
 
     [SerializeField] private Color defaultColor;
+    [SerializeField] private Color defaultColor2;
+
     [SerializeField] private Color happyColor;
+    [SerializeField] private Color happyColor2;
+
     [SerializeField] private Color angryColor;
+    [SerializeField] private Color angryColor2;
 
     [SerializeField] private float colorChangeDuration = 0.1f;
     [SerializeField] private Ease colorChangeEase = Ease.InBounce;
@@ -55,11 +60,12 @@ public class Spectator : MonoBehaviour
         currentStatus = SpectatorStatus.NEUTRAL;
         transform.DOKill(false);
 
+        Color _color = Color.Lerp(defaultColor, defaultColor2, Random.value);
         if (_forceChange)
         {
             foreach (Renderer _r in renderers)
             {
-                _r.material.DOColor(defaultColor, "_BaseColor", 0);
+                _r.material.DOColor(_color, "_BaseColor", 0);
             }
         }
         else
@@ -70,7 +76,7 @@ public class Spectator : MonoBehaviour
             {
                 foreach (Renderer _r in renderers)
                 {
-                    _r.material.DOColor(defaultColor, "_BaseColor", colorChangeDuration).SetEase(colorChangeEase);
+                    _r.material.DOColor(_color, "_BaseColor", colorChangeDuration).SetEase(colorChangeEase);
                 }
             });
         }
@@ -80,6 +86,7 @@ public class Spectator : MonoBehaviour
     {
         if (currentStatus == SpectatorStatus.HAPPY) return;
         currentStatus = SpectatorStatus.HAPPY;
+        Color _color = Color.Lerp(happyColor, happyColor2, Random.value);
         animator.SetTrigger("LaughingTrigger");
         SetFace(currentStatus);
         transform.DOKill(false);
@@ -87,7 +94,7 @@ public class Spectator : MonoBehaviour
         {
             foreach (Renderer _r in renderers)
             {
-                _r.material.DOColor(happyColor, "_BaseColor", colorChangeDuration).SetEase(colorChangeEase);
+                _r.material.DOColor(_color, "_BaseColor", colorChangeDuration).SetEase(colorChangeEase);
             }
         });
     }
@@ -96,6 +103,7 @@ public class Spectator : MonoBehaviour
     {
         if (currentStatus == SpectatorStatus.ANGRY) return;
         currentStatus = SpectatorStatus.ANGRY;
+        Color _color = Color.Lerp(angryColor, angryColor2, Random.value);
         animator.SetTrigger("AngryTrigger");
         SetFace(currentStatus);
         transform.DOKill(false);
@@ -103,7 +111,7 @@ public class Spectator : MonoBehaviour
         {
             foreach (Renderer _r in renderers)
             {
-                _r.material.DOColor(angryColor, "_BaseColor", colorChangeDuration).SetEase(colorChangeEase);
+                _r.material.DOColor(_color, "_BaseColor", colorChangeDuration).SetEase(colorChangeEase);
             }
         });
     }
