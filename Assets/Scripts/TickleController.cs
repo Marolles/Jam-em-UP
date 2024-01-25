@@ -30,6 +30,7 @@ public class TickleController : AttackController
     private void Awake()
     {
         rightClick_hint = Instantiate(rightClickHintPrefab, MainCanvas.instance.transform);
+        rightClick_hint.transform.SetAsFirstSibling();
         rightClick_hint.SetActive(false);
     }
     public override void CancelAttack()
