@@ -7648,6 +7648,96 @@ PrefabInstance:
       propertyPath: spawners.Array.data[3]
       value: 
       objectReference: {fileID: 1084094808}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[0].time
+      value: -0.10005188
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[1].time
+      value: 22.609974
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[2].time
+      value: 180.29382
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[0].value
+      value: 1.0033875
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[1].value
+      value: 2.0333211
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[2].value
+      value: 7.0082626
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[0].inSlope
+      value: 0.045351498
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[1].inSlope
+      value: 0.026112078
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[2].inSlope
+      value: 0.036952846
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[0].outSlope
+      value: 0.045351498
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[1].outSlope
+      value: 0.026112078
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[2].inWeight
+      value: 0.05893293
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[2].outSlope
+      value: 0.036952846
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[1].outWeight
+      value: 0.06390097
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[2].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305941992978192143, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
+        type: 3}
+      propertyPath: maxSimultaneousEnemiesOverTime.m_Curve.Array.data[2].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7461709385056274857, guid: c1b6e31b6055c4c4d95c8759f3f3216c,
         type: 3}
       propertyPath: m_LocalPosition.x
