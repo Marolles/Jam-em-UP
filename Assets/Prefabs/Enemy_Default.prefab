@@ -116,7 +116,6 @@ MonoBehaviour:
   shieldPoints: 3
   deleteAnimDuration: 0.5
   deleteAnimEase: 9
-  stunDurationWhenShieldDown: 1
   hpBarPrefab: {fileID: 4516968753342322602, guid: 8e7989fa662fab141aadfc059a20e8ae,
     type: 3}
   renderers:
@@ -134,6 +133,11 @@ MonoBehaviour:
   moveSpeed: 3
   rotationSpeed: 5
   distanceToAttack: 3
+  fleeingDistance: 10
+  fleeingSpeedMulitplier: 0.5
+  fleeMoveSpeedDuration: 2
+  fleeMoveSpeedMultiplier: 2
+  stunDurationWhenShieldDown: 1
 --- !u!114 &1375230898177905267
 MonoBehaviour:
   m_ObjectHideFlags: 0

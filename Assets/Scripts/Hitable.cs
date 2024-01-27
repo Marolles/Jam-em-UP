@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Hitable : MonoBehaviour
 {
@@ -16,10 +17,10 @@ public class Hitable : MonoBehaviour
     [SerializeField] private float deleteAnimDuration = 0.5f;
     [SerializeField] private Ease deleteAnimEase = Ease.OutCubic;
 
-    [SerializeField] private float stunDurationWhenShieldDown = 1f;
-
     [SerializeField] private GameObject hpBarPrefab;
     [SerializeField] private List<Renderer> renderers; //Temporary feedback
+
+    protected UnityEvent onShieldExplosion = new UnityEvent();
 
     private Tween colorFeedbackTween;
 
@@ -80,12 +81,7 @@ public class Hitable : MonoBehaviour
 
         if (currentShieldPoints <= 0) //Shield down, stun for X seconds
         {
-            if (TryGetComponent(out PawnController _pawnController))
-            {
-                _pawnController.SetStatus(new StatusEffect(StatusType.STUN, stunDurationWhenShieldDown, 1));
-                _pawnController.CancelAttacks();
-                _pawnController.GetAnimator().SetTrigger("NoArmorTrigger");
-            }
+            onShieldExplosion.Invoke();
         }
         return true;
     }
